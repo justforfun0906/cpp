@@ -1,4 +1,5 @@
-# cpp
-## write these codes in the highschool
+# cpp＝c++
+## I wrote these codes in the highschool
 * not really good at coding
-* but having fun
+* having fun
+---
