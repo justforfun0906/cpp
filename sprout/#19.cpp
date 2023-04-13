@@ -4,6 +4,6 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        
+        cout<<"hello world"<<'\n';
     }
 }
