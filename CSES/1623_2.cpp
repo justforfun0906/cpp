@@ -5,18 +5,21 @@ int main(){
     cin>>n;
     vector<int> a(n);
     for(int i=0;i<n;i++){
-        cin>>a[i];
-        sum+=a[i];
-    }
+    	cin>>a[i];
+    	sum+=a[i];
+	}
     sort(a.begin(),a.end());
     vector<int>find;
     find.push_back(a[0]);
     for(int i=1;i<n;i++){
         int x=a[i];
-        for(int j=0;j<find.size();j++){
+        int end=find.size();
+        for(int j=0;j<end;j++){
             find.push_back(x+find[j]);
         }
     }
     sort(find.begin(),find.end());
-    cout<<sum-*upper_bound(find.begin(),find.end(),sum/2);
+    int half=*lower_bound(find.begin(),find.end(),sum/2);
+    int first=sum-half;
+    cout<<abs(first-half);
 }
