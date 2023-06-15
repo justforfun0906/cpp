@@ -1,5 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
+void func(){
+    cout<<"this is func"<<'\n';
+}
 int main(){
     int x,y;
     int t,min_d=1e9;
