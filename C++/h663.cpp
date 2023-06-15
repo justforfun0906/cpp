@@ -11,15 +11,17 @@ int main(){
         }
     }
     //cout<<"target= "<<target<<'\n';
-    int dp[(1<<(n+1))+5][n+5];//dp[set(binary)][end]
+    pair<int, pair<int, int> > dp [(1<<(n+1))+5][n+5];//dp[set(binary)][end]
 
     for(int i=0;i<=(1<<(n+1));i++){//init
         for(int j=0;j<=n+5;j++){
-            dp[i][j]=1e9;
+            dp[i][j].first=1e9;
+            dp[i][j].second.first=0;
+            dp[i][j].second.second=0;
         }
     }
     for(int i=1;i<=n;i++){
-        dp[1<<(i-1)][i]=0;
+        dp[1<<(i-1)][i].first=0;
     }
 
     for(int i=1;i<(1<<n);i++){//don't know what the fuck is this
@@ -47,7 +49,11 @@ int main(){
             //cout<<" x="<<x;
             for(int k=0;k<not_end.size();k++){
                 int y=not_end[k]; //x=end, y=added number
-                dp[i+(1<<(y-1))][y] = min( dp[i+(1<<(y-1))][y], (dp[i][x]+g[x][y]));
+                if(dp[i+(1<<(y-1))][y].first>dp[i][x].first+g[x][y]){
+                    dp[i+(1<<(y-1))][y].first=dp[i][x].first+g[x][y];
+                    dp[i+(1<<(y-1))][y].second.first=i;
+                    dp[i+(1<<(y-1))][y].second.second=x;
+                }
 
                 /*cout<<" y="<<y;
                 cout<<"  dp"<<i+(1<<(y-1))<<' '<<y<<" = "<<dp[i+(1<<(y-1))][y];
@@ -62,9 +68,32 @@ int main(){
         cout<<endl;*/
 
     }
-    int min_e=1e9;
+    pair<int,pair<int,int>> min_e;min_e.first=1e9;
     for(int i=1;i<=n;i++){
-        min_e=min(min_e,dp[target][i]);
+        if(min_e.first>=dp[target][i].first){
+            min_e=dp[target][i];
+        }
     }
-    cout<<min_e<<'\n';
+    cout<<min_e.first<<'\n';
+    deque<int> ans;
+    set<int> fuck;
+    fuck.clear();
+    pair<int,int> t=min_e.second;
+    ans.push_front(min_e.second.second);
+    fuck.insert(min_e.second.second);
+    while(t!=make_pair(0,0)){
+        int tx=t.first;
+        int ty=t.second;
+        ans.push_front(dp[tx][ty].second.second);
+        fuck.insert(dp[tx][ty].second.second);
+        t=dp[tx][ty].second;
+    }
+    while(!ans.empty()){
+        if(ans.front()!=0)cout<<ans.front()<<' ';
+        ans.pop_front();
+    }
+    for(int i=1;i<=n;i++){
+        if(fuck.count(i)==0)cout<<i;
+    }
+    cout<<'\n';
 }
