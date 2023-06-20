@@ -1,9 +1,3 @@
-/*
-1 3 4 9 15 tree 
- 2 1 5 6   dis 
-  3   9 15 fire extin
-2 0 1 0 0  tree fire dis
----*/
 #include<bits/stdc++.h>
 using namespace std;
 bool check(vector<int> tree, int target, int fire){
