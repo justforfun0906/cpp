@@ -1,31 +1,42 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-    ios_base::sync_with_stdio(0);
     int n,m;
     cin>>n>>m;
+    m++;
     int target[n];
     for(int i=0; i<n; i++) cin >> target[i];
     stack<int> origin, temp;
+    origin.push(0);
+    temp.push(0);
     for(int i=n;i>0;i--){
         origin.push(i);
     }
-    cout<<"check1"<<"\n";
-    bool flag=1;
     for(int i=0;i<n;i++){
-        cout<<"origin top="<<origin.top()<<" temp top="<<temp.top()<<'\n';
-        while(target[i]!=origin.top()&&target[i]!=temp.top()){
-            if(temp.size()<m){
+        int x=target[i];
+        while(origin.top()!=x&&temp.top()!=x){
+            if(temp.size()>=m){
+                cout<<"no";
+                return 0;
+            }
+            else{
                 temp.push(origin.top());
+                //cout<<" push"<<temp.top();
                 origin.pop();
             }
-            else if(temp.size()>=m||origin.empty()) flag=0;
-            if(flag==0) break;
         }
-        if(origin.top()==target[i])origin.pop();
-        else if(temp.top()==target[i])temp.pop();
-        if(flag==0) break;
+        if(x==origin.top()){
+            //cout<<" drive in(o)"<<origin.top();
+            origin.pop();
+        }
+        else if(x==temp.top()){
+            //cout<<" drive in(t)"<<temp.top();
+            temp.pop();
+        }
+        else if(x>temp.top()){
+            cout<<"no";
+            return 0;
+        }
     }
-    if(!flag)cout<<"no";
-    else cout<<"yes";
+    cout << "yes";
 }
