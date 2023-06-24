@@ -16,6 +16,8 @@ bool check(int l,int r,int c,int n){
     else return 0;
 }
 void solve(){
+    for(int i=0;i<200005;i++)change[i]=0;
+    for(int i=0;i<100005;i++)prefix_loc.clear();
     int n,m;
     cin>>n>>m;
     vector<pair<int,int>> segs(m);
@@ -23,28 +25,46 @@ void solve(){
         cin>>segs[i].first>>segs[i].second;
     }
     int q;cin>>q;
-    for(int i=0;i<n;i++){
+    for(int i=0;i<q;i++){
         cin>>change[i];
         if(i>0)prefix_loc[i]=prefix_loc[i-1];
         prefix_loc[i].push_back(change[i]);
     }
     int l=0,r=q-1;
+    bool stop=0;
     while(l<r){
         int mid= (l+r)/2;
+        cout<<"1 l="<<l<<" r="<<r<<" mid="<<mid<<'\n';
         bool ok=0;
         for(int i=0;i<m;i++){
             if(check(segs[i].first,segs[i].second,mid,n)){
                 ok=1;
+                cout<<"change no. "<<mid+1<<" segment="<<segs[i].first<<" to "<<segs[i].second<<'\n';
             }
         }
         if(ok){
             r=mid;
         }
         else l=mid+1;
+        cout<<"2 l="<<l<<" r="<<r<<'\n';
+        if(l==r&&r==q-1&&ok==0){
+            for(int i=0;i<m;i++){
+                if(check(segs[i].first,segs[i].second,mid,n)){
+                    ok=1;
+                    cout<<"change no. "<<mid+1<<" segment="<<segs[i].first<<" to "<<segs[i].second<<'\n';
+                }
+            }
+            if(!ok){cout<<"-1"<<'\n';
+            stop=1;
+            break;}
+        }
     }
-    cout<<l+1<<'\n';
+    if(!stop)cout<<l+1<<'\n';
 }
 int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     int t;cin>>t;
     while(t--)solve();
 }
