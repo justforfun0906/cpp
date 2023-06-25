@@ -1,23 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int> change(200005,0);
-vector< vector<int> > prefix_loc(100005);
-bool check(int l,int r,int c,int n){
-    vector<int> prefix(n+5,0),cnt(n+5,0);
-    for(auto x:prefix_loc[c]){
-        prefix[x]=1;
-    }
-    for(int i=1;i<=n;i++){
-        cnt[i]=prefix[i]+cnt[i-1];
-    }
+vector<int> change(100005);
+
+bool check(vector<int> cnt,int l,int r){
     int one_cnt=cnt[r]-cnt[l-1];
     int zero_cnt=r-l+1-one_cnt;
     if(one_cnt>zero_cnt)return 1;
     else return 0;
 }
+
 void solve(){
-    for(int i=0;i<200005;i++)change[i]=0;
-    for(int i=0;i<100005;i++)prefix_loc[i].clear();
+    for(int i=0;i<100005;i++)change[i]=0;
     int n,m;
     cin>>n>>m;
     vector<pair<int,int>> segs(m);
@@ -27,14 +20,20 @@ void solve(){
     int q;cin>>q;
     for(int i=0;i<q;i++){
         cin>>change[i];
-        if(i>0)prefix_loc[i]=prefix_loc[i-1];
-        prefix_loc[i].push_back(change[i]);
     }
     int l=0,r=q-1;
     bool stop=0;
     bool ok_temp=0;
+
+    vector<int> prefix(n+5,0),cnt(n+5,0);
+    for(int i=0;i<=q;i++){
+        prefix[change[i]]=1;
+    }
+    for(int i=1;i<=n;i++){
+        cnt[i]=prefix[i]+cnt[i-1];
+    }
     for(int i=0;i<m;i++){
-        if(check(segs[i].first,segs[i].second,r,n)){
+        if(check(cnt,segs[i].first,segs[i].second)){
            ok_temp=1; 
         }
     }
@@ -42,12 +41,23 @@ void solve(){
         stop=1;
         cout<<-1<<'\n';
     }
+
     if(stop==0){
         while(l<r){
             int mid= (l+r)/2;
             bool ok=0;
+            for(int i=0;i<n+5;i++){
+                prefix[i]=0;
+                cnt[i]=0;
+            }
+            for(int i=0;i<=mid;i++){
+                prefix[change[i]]=1;
+            }
+            for(int i=1;i<=n;i++){
+                cnt[i]=prefix[i]+cnt[i-1];
+            }
             for(int i=0;i<m;i++){
-                if(check(segs[i].first,segs[i].second,mid,n)){
+                if(check(cnt,segs[i].first,segs[i].second)){
                     ok=1;
                 }
             }
@@ -58,8 +68,8 @@ void solve(){
         }
         cout<<l+1<<'\n';
     }
-    
 }
+
 int main(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
