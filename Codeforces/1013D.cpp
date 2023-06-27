@@ -1,40 +1,30 @@
 #include<bits/stdc++.h>
-#define int long long
 using namespace std;
-unsigned main(){
-    int n,T,MIN=1e9+5,total=0,ans=0;cin>>n>>T;
-    set<int> booths;
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int n,MIN=1e9+5;
+    long long T,total=0,ans=0;
+    cin>>n>>T;
     vector<int> a(n);
     for(int i=0;i<n;i++){
-        int temp;cin>>temp;
-        a[i]=temp;
-        total+=temp;
-        booths.insert(temp);
-        MIN=min(temp,MIN);
+        cin>>a[i];
+        MIN=min(a[i],MIN);
     }
-    ans+=(T/total)*n;
-    //cout<<"now ans="<<ans<<'\n';
-    T=T%total;
     while(T>=MIN){
-        auto it=booths.upper_bound(T);
-        //cout<<"it= "<<*it<<'\n';
-        if(T>=total){
-            ans+=(T/total)*n;
-            T=T%total;
-        }
-        else if(it!=booths.end()){
-            total-=*it;
-            booths.erase(it);
-            n--;
-        }
-        else{
-            for(int i=0;i<n;i++){
-                if(T>=a[i]&&booths.count(a[i])){
-                    T-=a[i];
-                    ans++;
-                }
+        int booth_num=0;
+        total=0;
+        for(int i=0;i<n;i++){
+            if(T>=a[i]){
+                T-=a[i];
+                ans++;
+                total+=a[i];
+                booth_num++;
             }
         }
+        ans+=(T/total)*booth_num;
+        T=T%total;
     }
     cout<<ans;
 }
