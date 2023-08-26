@@ -4,9 +4,7 @@
 using namespace std;
 vector< vector<pair <int, int > > > g(15);
 int check(int a,int b){
-    cout<<"node "<<a<<" connect to:";
     for(int i=0;i<g[a].size();i++){
-        cout<<g[a][i].first<<' ';
         if(g[a][i].first == b) {
             return g[a][i].second;
         }
@@ -18,7 +16,6 @@ int main() {
     int n,m;
     cin >> n >> m;
     vector<int> v;
-    vector<vector<pair<int, int> > > g(15);
     for (int i = 0; i < n; i++){
         v.push_back(i+1);
     }
@@ -34,7 +31,7 @@ int main() {
         //cout<<a<<b<<' ';
         if(check(a,b)>0){
             temp += check(a,b);
-            cout<<temp<<'\n';
+
         }else{
             break;
         }
