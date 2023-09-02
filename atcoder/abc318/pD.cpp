@@ -15,14 +15,10 @@ int main(){
         if(find[i].size()>1){
             long long end = find[i].size();
             long long acc=0;
-            for(long long j=0;j<end;j++){
-                ans +=j*find[i][j]-acc;
-                acc+=find[i][j]+1;
-                //cout<<"i="<<i<<" acc="<<acc<<'\n';
-            }
-            ans-= ((end-2)*(end-1))/2;
+            for(long long j=1;j<find[i].size();j++){
+                ans+=((long long)find[i].size()-j)*(find[i][j]-find[i][j-1]-1)*(j);
+            }   
         }
-        cout<<ans<<'\n';
     }
     cout<<ans;
 }
