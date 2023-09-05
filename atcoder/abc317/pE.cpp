@@ -8,7 +8,7 @@ int main(){
 	int arr[n+5][m+5];
 	for(int i=0;i<n;i++){
 		for(int j=0;j<m;j++){
-			char temp; cin>>char;
+			char temp; cin>>temp;
 		}
 	}
 }
