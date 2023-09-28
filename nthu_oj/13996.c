@@ -1,28 +1,26 @@
-#include<stdio.h>
-#include<string.h>
-int max(int a, int b){
-    if(a>b)return a;
-    else return b;
-}
-int main(){
-    char str[1010];
-    scanf("%s", str);
-    int siz=strlen(str), ans=0;
-    for(int i=0;i<siz;i++){
-        int sum=0;
-        for(int j=0;i-j>=0&&i+1+j<siz;j++){
-            if(str[i-j]==str[i+1+j])sum+=2;
-            else break;
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char s[1005];
+    scanf("%s", s);
+
+    int len = strlen(s);
+    int ans = 0;
+    for (int i = 0; i < len; i++) {
+        for (int j = 1; i - j >= 0 && i + j < len; j++) {
+            if (s[i - j] == s[i + j])
+                ans++;
+            else
+                break;
         }
-        ans=max(ans,sum);
-    }
-    for(int i=0;i<siz;i++){
-        int sum=1;
-        for(int j=0;i-j-1>=0&&i+1+j<siz;j++){
-            if(str[i-1-j]==str[i+1+j])sum+=2;
-            else break;
+        if (s[i - 1] != s[i]) continue;
+        for (int j = 1; i - j - 1 >= 0 && i + j < len; j++) {
+            if (s[i - j - 1] == s[i + j])
+                ans++;
+            else
+                break;
         }
-        ans=max(ans,sum);
     }
     printf("%d\n", ans);
     return 0;
