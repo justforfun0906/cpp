@@ -18,19 +18,20 @@ int main(){
             //printf("i=%d, pos=%d\n", i, r);
             a[r][e[r]]=i;
             e[r]++;
+        }else if(temp>r){
+            //printf("i=%d, pos=%d\n", i, r-(temp%r));
+            a[r-(temp%r)][e[r-(temp%r)]]=i;
+            e[r-(temp%r)]++;
         }else{
-            //printf("i=%d, pos=%d\n", i, 2+(temp%r));
-            a[2+(temp%r)][e[2+(temp%r)]]=i;
-            e[2+(temp%r)]++;
+            //printf("i=%d, pos=%d\n", i, 2);
+            a[2][e[2]]=i;
+            e[2]++;
         }
     }
-    printf("%d", a[1][0]);
-    for(int i=1;i<=e[1];i++){
-        if(a[1][i]!=0) printf(" %d", a[1][i]);
-    }
-    for(int i=2;i<=r;i++){
-        for(int j=0;j<=e[i];j++){
-            if(a[i][j]!=0) printf(" %d", a[i][j]);
+    for(int i=1;i<=r;i++){
+        for(int j=0;j<e[i];j++){
+            if(i==1&&j==0) printf("%d", a[i][j]);
+            else printf(" %d", a[i][j]);
         }
     }
     printf("\n");
