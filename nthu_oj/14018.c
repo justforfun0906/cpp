@@ -2,39 +2,59 @@
 #include<string.h>
 #include<stdbool.h>
 #include<ctype.h>
+char ans[1000005];
+void print(int p){
+    for(int i=0;i<p;i++) putchar(ans[i]);
+    printf("\n");
+}
 int main(){
-    char s[1005];//original input
-    while(scanf("%s", s)!=EOF){
-        char a[1005], ans[1000005]={0};//a = s without ''
-        int len = strlen(s);
-        int now=0;
-        int cnt=0;//counter of '
-        bool invalid = 0;
-        for(int i=0;i<len;i++){
-            if(s[i]!='\''){
-                a[now]=s[i];
-                now++;
-            }else{
-                cnt++;
-                if(s[i+2]=='\''&&isdigit(s[i+1])==0&&cnt%2==1) invalid = true;//char in the quotes is not an digit
+    char c;
+    bool valid=true;
+    int size = 0, cnt = 0;
+    while(1){
+        cnt = 0;
+        c = getchar();
+        if(c==EOF) break;
+        if(c=='\n'){
+            if(valid) print(size);
+            else printf("Domo cannot crack this computer\n");
+            size = 0, valid = true;
+            continue;
+        }
+        if(isdigit(c)==0){
+            //printf("case1: %c\n", c);
+            valid = false;
+            continue;
+        }
+        while(isdigit(c)){
+            cnt = cnt*10 +(c-'0');
+            c = getchar();
+        }
+        if(cnt==0){
+            //printf("case2\n");
+            valid = false;
+            continue;
+        }
+        if(c=='\''){
+            c = getchar();
+            if(isdigit(c)==0){
+                //printf("case3\n");
+                valid = false;
+                continue;
             }
         }
-        len = len-cnt;//a's length
-        if(len%2==1) invalid = true;
-        int times=0;
-        now = 0;
-        for(int i=0;i<len&&invalid==0;i++){
-            if(i%2==0){
-                times=a[i]-'0';
-                if(times==0||isdigit(a[i])==0)invalid = true;
-            }else{
-                for(int j=0;j<times;j++){
-                    ans[now]=a[i];
-                    now++;
-                }
+        while(cnt--) ans[size++]=c;
+        if(isdigit(c)){
+            c = getchar();
+            if(c!='\''){
+                valid = false;
+                //printf("case4\n");
+            }
+            if(c=='\n'){
+                printf("Domo cannot crack this computer\n");
+                size = 0;
+                valid = true;
             }
         }
-        if(invalid) printf("Domo cannot crack this computer\n");
-        else printf("%s\n", ans);
-    }
+    }//1 loop = a set of cnt*c
 }
