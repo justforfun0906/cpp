@@ -2,25 +2,29 @@
 using namespace std;
 void solve(){
     long long n,c; cin>>n>>c;
-    long long sum=0, sq_sum=0;
+    vector<long long> a(n);
     for(long long i=0;i<n;i++){
-        long long temp;
-        cin>>temp;
-        sum+=temp;
-        sq_sum+=temp*temp;
+        cin>>a[i];
     }
-    c-=sq_sum;
-    long long l=0, r=sqrt(c)+10;
-    while(l!=r){
+    long long l=1, r=1e9+10;
+    while(r-l>1){
         long long m=(l+r)/2;
-        long long num = n*m*m + 2*sum*m;
-        if(num==c){
-            cout<<m/2<<'\n';
-            break;
+        long long sum=0;
+        bool fail= false;
+        for(int i=0; i<n; ++i){
+            long long C = (a[i]+2*m) * (a[i]+2*m);
+            if(C>c||sum+C>c){
+                fail = true;
+                r = m;
+                break;
+            }
+            sum+=C;
         }
-        else if(num<=c)l=m+1;
+        if (fail) continue;
+        if(sum <= c)l=m;
         else r=m;
     }
+    cout<<l<<'\n';
 }
 int main(){
     ios_base::sync_with_stdio(0);
