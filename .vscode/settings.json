@@ -1,8 +1,16 @@
 {
     "files.associations": {
+<<<<<<< HEAD
+        "iostream": "cpp"
+=======
         "iostream": "cpp",
+<<<<<<< HEAD
+        "ostream": "cpp"
+>>>>>>> e185f1d007a3141b6c6f1e84cfdff5573c9b2212
+=======
         "ostream": "cpp",
         "vector": "cpp",
         "random": "cpp"
+>>>>>>> d03a2b867d0f726c301add2753f35fae6478880b
     }
 }
