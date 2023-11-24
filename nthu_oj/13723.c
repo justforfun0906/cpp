@@ -6,6 +6,7 @@ int cnt[1005]={0};
 char transed[1005][500];
 int len[1005]={0};
 int seven_cnt[1005]={0};
+int ans[1005];
 int cmp1(int i, int j){//return 1 means swap
     if(seven_cnt[i]<seven_cnt[j]) return 1;
     else if(seven_cnt[i]>seven_cnt[j]) return -1;
@@ -23,20 +24,15 @@ int cmp1(int i, int j){//return 1 means swap
 int cmp2(int i,int j){
     if(len[i]<len[j]) return -1;
     else if(len[i]>len[j]) return 1;
-    else{
-        int res = strcmp(transed[i],transed[j]);
-        if(res<0) return 0;
-        else return 1;
-    }
+    else return strcmp(transed[i],transed[j]);
 }
-void srt1(int n){//sort all
+void srt1(){//sort all
     for(int i=0;i<n-1;i++){
         for(int j=0;j<n-1-i;j++){
-            if(cmp1(j,j+1)>0){//swap;
-                char temp[500];
-                strcpy(temp,transed[j]);
-                strcpy(transed[j],transed[j+1]);
-                strcpy(transed[j+1],temp);
+            if(cmp1(ans[j],ans[j+1])>0){//swap;
+                int temp = ans[j+1];
+                ans[j+1]=ans[j];
+                ans[j] = temp;
             }
         }
     }
@@ -44,11 +40,10 @@ void srt1(int n){//sort all
 void srt2(){//sort first k
     for(int i=0;i<k-1;i++){
         for(int j=0;j<k-1-i;j++){
-            if(cmp2(j,j+1)>0){//swap
-                char temp[500];
-                strcpy(temp,transed[j]);
-                strcpy(transed[j],transed[j+1]);
-                strcpy(transed[j+1],temp);
+            if(cmp2(ans[j],ans[j+1])>0){//swap
+                int temp = ans[j+1];
+                ans[j+1] = ans[j];
+                ans[j] = temp;
             }
         }
     }
@@ -76,10 +71,11 @@ int main(){
     for(int i=0;i<n;i++){
         scanf("%s",input);
         transfer(input, i);
+        ans[i]=i;
     }
-    srt1( n );
+    srt1();
     srt2();
     for(int i=0;i<k;i++){
-        printf("%s\n",transed[i]);
+        printf("%s\n",transed[ans[i]]);
     }
 }
