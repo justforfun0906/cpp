@@ -1,49 +1,37 @@
-#include<stdio.h>
 #include<string.h>
-#include<ctype.h>
-#define MAX_SIZE 500
-char content[MAX_SIZE];
-char input[MAX_SIZE];
+#include<stdio.h>
 int main(){
-    fgets(input,MAX_SIZE, stdin);
-    char temp[MAX_SIZE];
-    int cursor=0;//cursor of content;
-    for(int i=0;i<MAX_SIZE;i++){
-        if(input[i]=='/'){
-            if(input[i+1]=='b'){//backspace
-                i+=9;
-                if(cursor!=0){
-                    strcpy(temp,&content[cursor]);//copy the whole content from the cursor pos and post it to temp
-                    cursor--;//go back 1 block and paste it back in order to delete a char
-                    strcpy(&content[cursor], temp); // pasting it back.
-
-                }
-            }
-            else if(input[i+1]=='n'){//newline
-                i+=7;//copy the whole content from cursor paste it to temp;
-                //then insert a '\n' at the cursor pos and paste the original content back start from next cursor pos
-                strcpy(temp, &content[cursor]);
-                content[cursor]='\n';
-                strcpy(&content[cursor+1],temp);
-                cursor++;
-
-            }else if(input[i+1]=='l'){//left
-                i+=4;
-                if(cursor!=0){
-                    cursor--;
-                }
-            }else if(input[i+1]=='r'){//right
-                i+=5;
-                if(content[cursor]!=0){//hasn't reached the end of the string
-                    cursor++;
-                }
-            }
-        }else if(isalpha(input[i])||input[i]==' '){
-            strcpy(temp,&content[cursor]);
-            strcpy(&content[cursor+1],temp);
-            content[cursor]=input[i];
-            cursor++;
+    int n;
+    char key_words[1005],ans_s[100005],ans_n[100005];
+    int max_cnt = 0;
+    scanf("%d %s\n",&n, key_words);
+    while(n--){
+        char s[100005];
+        int temp_cnt = 0;
+        fgets(s,100005,stdin);
+        char name[100005],sentence[100005],pure_sentence[100005];
+        char *d = ":", *temp;
+        temp = strtok(s,d);
+        strcpy(name,temp);
+        //printf("name :%s\n",name);
+        while(temp!=NULL){
+            strcpy(sentence,temp);
+            temp = strtok(NULL, d);
+        }
+        //printf("sentence: %s\n",sentence);
+        char *new_d=" ,.?!";
+        strcpy(pure_sentence,sentence);
+        temp = strtok(sentence,new_d);
+        while(temp!=NULL){
+            //printf("temp :%s",temp);
+            if(strcasecmp(temp,key_words)==0)temp_cnt++;
+            temp = strtok(NULL,new_d);
+        }
+        if(temp_cnt > max_cnt){
+            max_cnt = temp_cnt;
+            strcpy(ans_n, name);
+            strcpy(ans_s,pure_sentence);
         }
     }
-    printf("%s",content);
+    printf("%s: %s",ans_n, ans_s);
 }
