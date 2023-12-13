@@ -1,85 +1,73 @@
+#include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
-int n,k;
-int cnt[1005]={0};
-char transed[1005][500];
-int len[1005]={0};
-int seven_cnt[1005]={0};
-int cmp1(int i, int j){//return 1 means swap
-    if(seven_cnt[i]<seven_cnt[j]) return 1;
-    else if(seven_cnt[i]>seven_cnt[j]) return -1;
-    else{
-        if(len[i]<len[j]) return 1;
-        else if(len[i]>len[j]) return -1;
-        else{
-            int res = strcmp(transed[i], transed[j]);
-            if(res>0) return -1;
-            else if (res<0) return 1;
-            else return 0;
-        }
-    }
+char order[26];
+char input[105][7];
+void srt(int n){
+	for(int i=0;i<5;i++){
+		for(int j=0;j<5;j++){
+			if(input[n][j]!=input[n][j+1]){
+				int ia,ib;
+				for(int k=0;k<26;k++){
+					if(order[k]==input[n][j])ia = k;
+					if(order[k]==input[n][j+1])ib = k;
+				}
+				if(ia>ib){
+					int temp = input[n][j];
+					input[n][j]=input[n][j+1];
+					input[n][j+1]=temp;
+				}
+			}
+		}
+	}
 }
-int cmp2(int i,int j){
-    if(len[i]<len[j]) return -1;
-    else if(len[i]>len[j]) return 1;
-    else{
-        int res = strcmp(transed[i],transed[j]);
-        if(res<0) return 0;
-        else return 1;
-    }
+int cmp1(const void* a, const void* b){
+	int ia=0, ib=0;
+	for(int i=0;i<26;i++){
+		if(*(char*)a==order[i])ia = i;
+		if(*(char*)b==order[i])ib = i;
+	}
+	if(ia>ib)return 1;
+	else return -1;
 }
-void srt1(int n){//sort all
-    for(int i=0;i<n-1;i++){
-        for(int j=0;j<n-1-i;j++){
-            if(cmp1(j,j+1)>0){//swap;
-                char temp[500];
-                strcpy(temp,transed[j]);
-                strcpy(transed[j],transed[j+1]);
-                strcpy(transed[j+1],temp);
-            }
-        }
-    }
-}
-void srt2(){//sort first k
-    for(int i=0;i<k-1;i++){
-        for(int j=0;j<k-1-i;j++){
-            if(cmp2(j,j+1)>0){//swap
-                char temp[500];
-                strcpy(temp,transed[j]);
-                strcpy(transed[j],transed[j+1]);
-                strcpy(transed[j+1],temp);
-            }
-        }
-    }
-}
-void transfer(char *input, int num){
-    for(int i=0,j=0;input[j]!='\0';i=j+1){//j always ahead of i, if j == '\0', it's the end.
-        j=i;
-        while(input[j]!='|'&&input[j]!='\0')j++;
-        int temp = 0;
-        char s_hex[20]={'\0'};
-        char s_dec[20]={'\0'};
-        strncpy(s_hex,input+i,j-i);
-        sscanf(s_hex, "%x", &temp);
-        sprintf(s_dec, "%d", temp);
-        strcat(transed[num],s_dec);
-    }
-    len[num]=strlen(transed[num]);
-    for(int i=0;i<len[num];i++){
-        if(transed[num][i]=='7') seven_cnt[num]++;
-    }
+int cmp2(char a[], char b[]){
+	int ia, ib;
+	int flag = -1;
+	for(int i=0;i<6;i++){
+		if(a[i]!=b[i]){
+			for(int j=0;j<26;j++){
+				if(order[j]==a[i])ia = j;
+				if(order[j]==b[i])ib = j;
+			}
+			if(ia>ib){
+				flag = 1;
+				break;
+			}
+		}
+	}
+	return flag;
 }
 int main(){
-    scanf("%d %d", &n, &k);
-    char input[2000];
-    for(int i=0;i<n;i++){
-        scanf("%s",input);
-        transfer(input, i);
-    }
-    srt1( n );
-    srt2();
-    for(int i=0;i<k;i++){
-        printf("%s\n",transed[i]);
-    }
+	int n;
+	scanf("%d",&n);
+	scanf("%s", order);
+	for(int i=0;i<n;i++){
+		scanf("%s", input[i]);
+		srt(i);
+	}
+	for(int i=0;i<n-1;i++){
+		for(int j=0;j<n-1;j++){
+			if(cmp2(input[j],input[j+1])){
+				char temp[10];
+				strcpy(temp,input[i]);
+				strcpy(input[i],input[i+1]);
+				strcpy(input[i+1],temp);
+			}
+		}
+	}
+	printf("%s",input[0]);
+	for(int i=1;i<n;i++){
+		printf(" %s",input[i]);
+	}
+	printf("\n");
 }
