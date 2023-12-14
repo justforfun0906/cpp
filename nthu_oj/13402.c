@@ -37,11 +37,7 @@ int flip(int n,int m, int last_i, int last_j,int cnt){//
     return result;
 }
 int main(){
-<<<<<<< HEAD
     int n, int m;
-    
-}
-=======
     int n, m;
     scanf("%d %d",&n,&m);
     for(int i=0;i<n;i++){
@@ -59,4 +55,3 @@ int main(){
         printf("opps\n");
     }
 }
->>>>>>> 649fecbee0a3b67e1263fb0afbe96651f244d620
