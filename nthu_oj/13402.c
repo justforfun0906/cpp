@@ -49,10 +49,9 @@ int main(){
     for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
             char temp;
-            temp = getchar();
-            if(temp =='b')board[i][j] = 1;
-            else if(temp == 'w')board[i][j] = 0;
-            temp = getchar();
+            scanf(" %c",&temp);
+            if(temp=='b') board[i][j]=0;
+            else board[i][j]=1;
         }
     }
     int result = flip(n,m,-1,-1,0);

@@ -1,8 +1,9 @@
 #include <stdio.h>
 
 int main(void) {
-    char a, b;
-    scanf("%c %c", &a, &b);
-    printf("%c %c", a, b);
+    int a, b, ret;
+    a = b = -1;
+    ret = scanf("(%d,%d)", &a, &b);
+    printf("%d %d %d", ret, a, b);
     return 0;
 }
