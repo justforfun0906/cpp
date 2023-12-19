@@ -7,6 +7,7 @@ typedef struct Cat{
     int age;
 } cat;
 char occu[10]= "enkwamdl";
+
 cat* new_cat(){
     cat* temp= (cat*)malloc(sizeof(cat));
     temp->name = (char*)malloc(sizeof(char)*100);
@@ -28,26 +29,28 @@ cat* new_cat(){
 int cmp(const void *a, const void *b){
     cat *c1 = *(cat**)a;
     cat *c2 = *(cat**)b;
-    if(c1->occu_order != c2->occu_order){
-        return c1->occu_order - c2->occu_order;
-    }else if(c1->age != c2->age){
-        if(c1->occu_order==4){
-            return c1->age - c2->age;
+    if(c1->occu_order==c2->occu_order){
+        if(c1->age>c2->age){
+            return c1->occu_order==4?1:-1;
         }
-        else return c2->age - c1->age;
+        else if(c1->age<c2->age){
+            return c1->occu_order==4?-1:1;
+        }else if(c1->age==c2->age){
+            return strcmp(c1->name,c2->name);
+        }
     }else{
-        return strcmp(c1->name,c2->name);
+        return c1->occu_order-c2->occu_order;
     }
 }
 int main(){
     int n ,m;
+    cat* c[10020];
     while(scanf("%d %d", &n, &m)!=EOF){
-        cat *c[10020];
         for(int i=0;i<n;i++){
             c[i] = new_cat();
         }
         qsort(c,n,sizeof(cat*),cmp);
-        for(int i=0;i<m;i++){
+        for(int i=0;i<m&&i<n;i++){
             printf("%s\n", c[i]->name);
         }
         for(int i=0;i<n;i++){

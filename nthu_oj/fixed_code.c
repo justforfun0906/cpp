@@ -42,7 +42,7 @@ int cmp(const void *a, const void *b){
 }
 int main(){
     int n ,m;
-    while(scanf("%d %d", &n, &m)!=EOF){
+    while(~scanf("%d %d", &n, &m)){
         for(int i=0;i<n;i++){
             c[i] = new_cat();
         }
