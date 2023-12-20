@@ -5,18 +5,54 @@ typedef struct Node{
     int x;
     struct Node* next;
 } node;
-node* head;
+node Head;
+node* head= &Head;
+void pop(){
+    if(head->next!=NULL) head->next = head->next->next;
+}
 void push(int x){
     node* temp = head;
     while(temp->next!=NULL){
         temp = temp->next;
     }
     temp->next = (node*)malloc(sizeof(node));
-    temp->next->x = x;
-    temp->next->next = NULL;
+    temp = temp ->next;
+    temp->x = x;
+    temp->next = NULL;
 }
-int main(){
+void reverse(){
+    node* current = head;
+    if(current->next!=NULL){//not empty
+        //printf("in\n");
+        current = current->next; //first element;
+        node* next_node = NULL;
+        node* prev = NULL;
+        while(current!=NULL){// current is not the last node
+            next_node = current->next;
+            current->next = prev;
+            prev = current;
+            current = next_node;
+        }
+        head ->next = prev;
+        printf("first element is %d\n", head->next->x);
+    }
+}
+void print(){
+    node* temp = head;
+    if(temp->next!=NULL){
+        temp = temp->next;
+        printf("%d",temp->x);
+    }
+    temp = temp->next;
+    while(temp!=NULL){
+        printf(" -> %d", temp->x);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main(){ 
     char request[100];
+    head->x = 1e6;
     head->next = NULL;
     while(scanf("%s",request)!=EOF){
         if(strcmp(request,"push")==0){
@@ -24,30 +60,11 @@ int main(){
             scanf("%d",&x);
             push(x);
         }else if(strcmp(request,"pop")==0){
-            node* temp = head;
-            while(temp->next->next!=NULL){
-                temp = temp->next;
-            }
-            printf("%d\n",temp->next->x);
-            free(temp->next);
-            temp->next = NULL;
+            pop();
         }else if(strcmp(request,"reverse")==0){
-            node* temp = head;
-            node* temp2 = head;
-            while(temp->next->next!=NULL){
-                temp = temp->next;
-            }
-            temp2 = temp->next;
-            temp->next = NULL;
-            temp2->next = head->next;
-            head->next = temp2;
+            reverse();
         }else if(strcmp(request,"print")==0){
-            node* temp = head;
-            while(temp->next!=NULL){
-                printf("%d ",temp->next->x);
-                temp = temp->next;
-            }
-            printf("\n");
+            print();
         }
     }
 }
