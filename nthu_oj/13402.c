@@ -30,7 +30,7 @@ void flip_all(int st){
 int one_cnt(int st){
     int cnt = 0;
     for(int i=0;i<N*M;i++){
-        if(st&(1<<(N*M)))cnt++;
+        if(st&(1<<(i)))cnt++;
     }
     return cnt;
 }
@@ -49,15 +49,11 @@ int main(){
         }
         int MIN = 7122;
         for(int st = 0 ; st<(1<<(N*M));st++){
-            int ocnt = one_cnt(st);
-            if(ocnt>MIN) continue;
-            else{
-                flip_all(st);
-                if(check()){
-                    if(ocnt<MIN)MIN = ocnt;
-                }
-                flip_all(st);
+            flip_all(st);
+            if(check()){
+                if(one_cnt(st)<MIN)MIN = one_cnt(st);
             }
+            flip_all(st);
         }
         if(MIN!=7122)printf("%d\n",MIN);
         else printf("oops\n");
