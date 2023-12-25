@@ -36,6 +36,7 @@ void DeleteFront(Node** head, Node** back){
     if((*head)->next!=NULL){//non empty
         Node* original = (*head)->next;
         (*head)->next = original -> next ;
+        if((*head)->next==NULL) *back = *head;
         free(original);
     }
 }
@@ -46,18 +47,20 @@ void Delete(Node** head, Node** back, int num){
         while(now!=NULL){
             if(now->idx == num){//delete node pointed by "now"
                 prev->next = now->next;
-                Node* temp = now;
-                now = now->next;
-                free(temp);
+                if(now->next==NULL){
+                    *back = prev;
+                }
+                free(now);
             }else{//"prev" point to "now", "now" point to next node
-                now = now->next;
-                prev = prev->next;
+                prev = now;
             }
+            now = prev->next;
         }
     }
 }
 void Swap(Node** head, Node** back){
     if((*head)->next!=NULL){//non empty
+        *back = (*head)->next;
         Node *prev = NULL, *current = (*head)->next, *next = NULL;
         while(current!=NULL){
             next  = current ->next;
