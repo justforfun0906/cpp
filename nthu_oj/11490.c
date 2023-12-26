@@ -12,18 +12,15 @@ cat* new_cat(){
     cat* temp= (cat*)malloc(sizeof(cat));
     temp->name = (char*)malloc(sizeof(char)*100);
     scanf(" %s",temp->name);
-    //printf("Name = %s\n",temp->name);
     char o[20];
     scanf(" %s",o);
     for(int i=0;i<8;i++){
         if(o[0]==occu[i]){
             temp->occu_order = i;
-            //printf("Occupation = %c\n", occu[i]);
             break;
         }
     }
     scanf("%d", &(temp->age));
-    //printf("Age = %d\n", temp->age);
     return temp;
 }
 int cmp(const void *a, const void *b){
