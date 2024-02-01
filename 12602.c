@@ -24,6 +24,7 @@ int main(){
             char ans = find(i,k);
             printf("%c",ans);
         }
+        printf("\n");
     }
-    printf("\n");
+    //printf("\n");
 }
