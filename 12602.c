@@ -15,7 +15,6 @@ char find(int i, int k){
 }
 int main(){
     int k,l,r;
-    len[0] = 1;
     len[1] = 3;
     for(int i=2;i<=50;i++){
         len[i] = len[i-1]*2+3;
