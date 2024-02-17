@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<string.h>
 char target[10] = "ICPCASIASG";
-int g[105][105];
+char ori[10005];
+char g[105][105];
 int n;
 int find(int x, int y, int idx){
+    //printf("%d %d %d\n", x, y, idx);
     if(idx==10) return 1;
     if(x<0||y<0||x>=n||y>=n) return 0;
     if(g[x][y]!=target[idx]) return 0;
@@ -11,14 +13,13 @@ int find(int x, int y, int idx){
 }
 int main(){
     scanf("%d", &n);
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            scanf("%d", &g[i][j]);
-        }
+    scanf("%s", ori);
+    for(int i=0;i<n*n;i++){
+        g[i/n][i%n] = ori[i];
     }
     int flag = 0;
     for(int i=0;i<n;i++){
-        for(int j=0;i<n;j++){
+        for(int j=0;j<n;j++){
             if(g[i][j]=='I'){
                 if(find(i,j,0)) flag = 1;
             }
