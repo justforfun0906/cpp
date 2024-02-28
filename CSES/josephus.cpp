@@ -1,29 +1,25 @@
-#include<iostream>
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
 using namespace std;
-int main(){
-    int n,m;
-    cin>>n>>m;
-    int next[n+1], prev[n+1];   
-    for(int i=0;i<n-1;i++){
-        next[i] = i+1;
-        prev[i] = i-1;
-    }
-    prev[n-1] = n-2;
-    prev[0] = n-1;
-    next[n-1] = 0;
-    int now = 0;
-    int count = 1;
-    while(next[now]!=now){
-        if(count == m%n){
-            cout<<now+1<<" ";
-            next[prev[now]] = next[now];
-            prev[next[now]] = prev[now];
-            count = 1;
-        }
-        else{
-            count++;
-        }
-        now = next[now];
-    }
-    cout<<now+1;
+
+typedef tree<int,null_type,less<int>,rb_tree_tag, tree_order_statistics_node_update> indexed_set;
+#define int long long
+#define endl '\n'
+
+signed main(){
+    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    
+    indexed_set s;
+    int n,k; cin>>n>>k;
+    for (int i = 1; i <= n; i++)
+        s.insert(i);
+
+    int ind = k%n;
+    while(n--) {
+        auto y = s.find_by_order(ind);
+        cout<<*y<<' ';
+        s.erase(y);
+        if (n) ind = (ind%n + k)%n;
+    }   
 }
