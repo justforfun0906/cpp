@@ -38,11 +38,10 @@ int main(){
     for(int i=1;i<=n;i++){
         mod(i, BIT, 1);
     }
+    int step = (k%n)+1;
+    int target_Kth = step;
+    int to_kill = find_kth(target_Kth, BIT);
     while(n){
-        k = (k%n)+1;
-        int target=find_kth(k, BIT);
-        cout<<target<<' ';
-        mod(target, BIT, -1);
-        n--;
+        step
     }
 }
