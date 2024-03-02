@@ -16,7 +16,6 @@ void freeList(Node *head){
         free(temp);
     }
 }
-
 int main()
 {
     Node *head;
