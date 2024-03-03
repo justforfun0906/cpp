@@ -7,27 +7,24 @@ typedef struct _Node {
 
 void eFormSort(Node *head){
     Node *p = head;
-    int n = 0;
-    while (p != NULL) {
-        n++;
-        p = p->next;
-    }
-    for (int i = 0; i < n; i++) {
-        p = head;
-        for (int j = 0; j < n - i - 1; j++) {
-            if (p->stu_id > p->next->stu_id) {
-                int serial = p->serial;
-                int stu_id = p->stu_id;
-                char name[1001];
-                strcpy(name, p->name);
-                p->serial = p->next->serial;
-                p->stu_id = p->next->stu_id;
-                strcpy(p->name, p->next->name);
-                p->next->serial = serial;
-                p->next->stu_id = stu_id;
-                strcpy(p->next->name, name);
+    Node *p_pre = NULL;
+    int now = 1;
+    while(p != NULL){
+        if(p->serial != now){
+            Node *q = p;
+            Node *q_pre = p_pre;
+            while(q->serial != now){
+                q_pre = q;
+                q = q->next;
             }
-            p = p->next;
+            q_pre->next = q->next;
+            q->next = p;
+            p_pre->next = q;
+            p = q;
+            //printf("swap %d %d\n", p->serial, q->serial);
         }
+        p_pre = p;
+        p = p->next;
+        now++;
     }
 }
