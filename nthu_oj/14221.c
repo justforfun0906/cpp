@@ -5,48 +5,30 @@ typedef struct _node {
     char val;
     struct _node* next;
 } node;
- 
 //list[i]'s head node
 node *head[100005] = {};
- 
 //list[i]'s tail node
-node *tail[100005] = {};
- 
+node *tail[100005] = {}; 
 //reverse(list[i])'s head node
 node *rev_head[100005] = {};
- 
 //reverse(list[i])'s tail node
 node *rev_tail[100005] = {};
- 
-/*
-list[a] = 1 -> 2 -> 3 -> 4
-rev_list[a] = 4 -> 3 -> 2 -> 1
-head[a]->val = 1, tail[a]->val = 4
-rev_head[a]->val = 4, rev_tail[a]->val = 1
-you can use rev_head and rev_tail to get o(1) reverse
-*/
  
 void swap(int a, int b) {
     //swap list[a] and list[b]
     node *tmp = (node *)malloc(sizeof(node));
- 
     //swap(head_node)
     tmp = head[a];
     head[a] = head[b];
     head[b] = tmp;
- 
     //swap(tail_node)
     tmp  = tail[a];
     tail[a] = tail[b];
     tail[b] = tmp;
-    
-
     //swap(rev_head)
     tmp = rev_head[a];
     rev_head[a] = rev_head[b];
     rev_head[b] = tmp;
-    
-
     //swap(rev_tail)
     tmp = rev_tail[a];
     rev_tail[a] = rev_tail[b];
@@ -135,7 +117,7 @@ int main(){
         char s[100005];
         if(length)scanf("%s", s);
         //init head[i] and tail[i] rev_head[i] and rev_tail[i]
-        if(length==0){
+        if(length==0){//empty ror
             head[i]=NULL;
             tail[i]=NULL;
             rev_head[i]=NULL;
