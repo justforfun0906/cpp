@@ -30,44 +30,101 @@ void swap(int a, int b) {
     //swap list[a] and list[b]
     node *tmp = (node *)malloc(sizeof(node));
  
-    /* swap(head_node)
+    //swap(head_node)
     tmp = head[a];
     head[a] = head[b];
     head[b] = tmp;
-    */
  
-    /* swap(tail_node)
- 
-    */
+    //swap(tail_node)
+    tmp  = tail[a];
+    tail[a] = tail[b];
+    tail[b] = tmp;
+    
 
-    /*swap(rev_head)
- 
-    */
+    //swap(rev_head)
+    tmp = rev_head[a];
+    rev_head[a] = rev_head[b];
+    rev_head[b] = tmp;
+    
 
-    /*swap(rev_tail)
- 
-    */
+    //swap(rev_tail)
+    tmp = rev_tail[a];
+    rev_tail[a] = rev_tail[b];
+    rev_tail[b] = tmp;
 }
 void append(int a, int b) {
     //append list[a] to list[b]'s behind
-    if(head[a] == null) return;
-    if(head[b] == null) {
+    if(head[a] == NULL) return;
+    if(head[b] == NULL) {
         swap(a, b);
         return;
+    }else{
+        tail[b]->next = head[a];
+        tail[b] = tail[a];
+        head[a] = NULL;
+
+        rev_tail[a]->next = rev_head[b];
+        rev_head[b] = rev_head[a];
+        rev_tail[a] = NULL;
     }
-    /*
-    tail[b]->next = head[a];
-    tail[b] = ...
-    ...
-    */
+}
+void add_front(int a, int b){
+    //add list[a] to list[b]'s front
+    if(head[a] == NULL) return;
+    if(head[b] == NULL) {
+        swap(a, b);
+        return;
+    }else{
+        tail[a]->next = head[b];
+        head[b] = head[a];
+        head[a] = NULL;
+
+        rev_tail[b]->next = rev_head[a];
+        rev_tail[b]= rev_tail[a];
+        rev_head[a] = NULL;
+    }
 }
 void reverse(int a) {
     //reverse list[a]
-    if(head[a] == null) return;
+    if(head[a] == NULL) return;
     /*
     use rev_head and rev_tail to reverse list[a] in o(1)
     hint: swap something
     */
+    node *tmp = (node *)malloc(sizeof(node));
+    tmp = head[a];
+    head[a] = rev_head[a];
+    rev_head[a] = tmp;
+    tmp = tail[a];
+    tail[a] = rev_tail[a];
+    rev_tail[a] = tmp;
+}
+void solve(){
+    int op, a, b;
+    scanf("%d", &op);
+    if(op == 1){
+        scanf("%d %d", &a, &b);
+        add_front(a, b);
+    }else if(op == 2){
+        scanf("%d %d", &a, &b);
+        append(a, b);
+    }else if(op == 3){
+        scanf("%d %d", &a, &b);
+        swap(a,b);
+    }else{
+        scanf("%d", &a);
+        reverse(a);
+    }
+}
+void test(){
+    for(int i=1;i<=N;i++){
+        node *tmp = head[i];
+        while(tmp != NULL){
+            printf("%c", tmp->val);
+            tmp = tmp->next;
+        }
+        printf("\n");
+    }
 }
 int main(){
     scanf("%d", &N);
@@ -76,30 +133,43 @@ int main(){
         int length;
         scanf("%d", &length);
         char s[100005];
-        scanf("%s", s);
+        if(length)scanf("%s", s);
         //init head[i] and tail[i] rev_head[i] and rev_tail[i]
-        head[i] = (node *)malloc(sizeof(node));
-        head[i]->val = -1;
-        head[i]->next = NULL;
-        //dummy head node
-        tail[i] = head[i];
-        rev_head[i] = tail[i];
-        rev_tail[i] = head[i];
+        if(length==0){
+            head[i]=NULL;
+            tail[i]=NULL;
+            rev_head[i]=NULL;
+            rev_tail[i]=NULL;
+        }else{
+            head[i] = (node *)malloc(sizeof(node));
+            head[i]->next = NULL;
+            head[i]->val = s[0];
+            tail[i] = head[i];
+            rev_head[i] = (node *)malloc(sizeof(node));
+            rev_head[i]->next = NULL;
+            rev_head[i]->val = s[length-1];
+            rev_tail[i] = rev_head[i];
+        }
         //building normal head and tail
-        for(int j=0;j<length;j++){
+        for(int j=1;j<length;j++){
             node *new_node = (node *)malloc(sizeof(node));
             new_node->val = s[j];
             new_node->next = NULL;
             tail[i]->next = new_node;
             tail[i] = new_node;
-            rev_head[i] = new_node;
         }
-        for(int j=length-1;j>=0;j--){
+        for(int j=length-2;j>=0;j--){
             node *new_node = (node *)malloc(sizeof(node));
             new_node->val = s[j];
-            new_node->next = null;
+            new_node->next = NULL;
             rev_tail[i]->next = new_node;
             rev_tail[i] = new_node;
         }
     }
+    int t;
+    scanf("%d", &t);
+    while(t--){
+        solve();
+    }
+    test();
 }
