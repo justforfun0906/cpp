@@ -18,21 +18,57 @@ void swap(int a, int b) {
     //swap list[a] and list[b]
     node *tmp = (node *)malloc(sizeof(node));
     //swap(head_node)
-    tmp = head[a];
-    head[a] = head[b];
-    head[b] = tmp;
+    if(head[a] == NULL && head[b] == NULL) return;
+    if(head[a] == NULL){
+        head[a] = head[b];
+        head[b] = NULL;
+    }else if(head[b] == NULL){
+        head[b] = head[a];
+        head[a] = NULL;
+    }else{
+        tmp = head[a];
+        head[a] = head[b];
+        head[b] = tmp;
+    }
     //swap(tail_node)
-    tmp  = tail[a];
-    tail[a] = tail[b];
-    tail[b] = tmp;
+    if(tail[a] == NULL && tail[b] == NULL) return;
+    if(tail[a] == NULL){
+        tail[a] = tail[b];
+        tail[b] = NULL;
+    }else if(tail[b] == NULL){      
+        tail[b] = tail[a];
+        tail[a] = NULL;
+    }else{
+        tmp = tail[a];
+        tail[a] = tail[b];
+        tail[b] = tmp;
+    }
     //swap(rev_head)
-    tmp = rev_head[a];
-    rev_head[a] = rev_head[b];
-    rev_head[b] = tmp;
+    if(rev_head[a] == NULL && rev_head[b] == NULL) return;
+    if(rev_head[a] == NULL){
+        rev_head[a] = rev_head[b];
+        rev_head[b] = NULL;
+    }else if(rev_head[b] == NULL){
+        rev_head[b] = rev_head[a];
+        rev_head[a] = NULL;
+    }else{
+        tmp = rev_head[a];
+        rev_head[a] = rev_head[b];
+        rev_head[b] = tmp;
+    }
     //swap(rev_tail)
-    tmp = rev_tail[a];
-    rev_tail[a] = rev_tail[b];
-    rev_tail[b] = tmp;
+    if(rev_tail[a] == NULL && rev_tail[b] == NULL) return;
+    if(rev_tail[a] == NULL){
+        rev_tail[a] = rev_tail[b];
+        rev_tail[b] = NULL;
+    }else if(rev_tail[b] == NULL){
+        rev_tail[b] = rev_tail[a];
+        rev_tail[a] = NULL;
+    }else{
+        tmp = rev_tail[a];
+        rev_tail[a] = rev_tail[b];
+        rev_tail[b] = tmp;
+    }
 }
 void append(int a, int b) {
     //append list[a] to list[b]'s behind
