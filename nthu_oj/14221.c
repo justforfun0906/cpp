@@ -117,12 +117,12 @@ int main(){
         char s[100005];
         if(length)scanf("%s", s);
         //init head[i] and tail[i] rev_head[i] and rev_tail[i]
-        if(length==0){//empty ror
+        if(length==0){//empty row
             head[i]=NULL;
             tail[i]=NULL;
             rev_head[i]=NULL;
             rev_tail[i]=NULL;
-        }else{
+        }else{//first node
             head[i] = (node *)malloc(sizeof(node));
             head[i]->next = NULL;
             head[i]->val = s[0];
