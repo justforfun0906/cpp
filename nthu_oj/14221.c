@@ -13,62 +13,24 @@ node *tail[100005] = {};
 node *rev_head[100005] = {};
 //reverse(list[i])'s tail node
 node *rev_tail[100005] = {};
- 
 void swap(int a, int b) {
     //swap list[a] and list[b]
-    node *tmp = (node *)malloc(sizeof(node));
+    node *tmp = head[a];
     //swap(head_node)
-    if(head[a] == NULL && head[b] == NULL) return;
-    if(head[a] == NULL){
-        head[a] = head[b];
-        head[b] = NULL;
-    }else if(head[b] == NULL){
-        head[b] = head[a];
-        head[a] = NULL;
-    }else{
-        tmp = head[a];
-        head[a] = head[b];
-        head[b] = tmp;
-    }
+    head[a] = head[b];
+    head[b] = tmp;
     //swap(tail_node)
-    if(tail[a] == NULL && tail[b] == NULL) return;
-    if(tail[a] == NULL){
-        tail[a] = tail[b];
-        tail[b] = NULL;
-    }else if(tail[b] == NULL){      
-        tail[b] = tail[a];
-        tail[a] = NULL;
-    }else{
-        tmp = tail[a];
-        tail[a] = tail[b];
-        tail[b] = tmp;
-    }
+    tmp  = tail[a];
+    tail[a] = tail[b];
+    tail[b] = tmp;
     //swap(rev_head)
-    if(rev_head[a] == NULL && rev_head[b] == NULL) return;
-    if(rev_head[a] == NULL){
-        rev_head[a] = rev_head[b];
-        rev_head[b] = NULL;
-    }else if(rev_head[b] == NULL){
-        rev_head[b] = rev_head[a];
-        rev_head[a] = NULL;
-    }else{
-        tmp = rev_head[a];
-        rev_head[a] = rev_head[b];
-        rev_head[b] = tmp;
-    }
+    tmp = rev_head[a];
+    rev_head[a] = rev_head[b];
+    rev_head[b] = tmp;
     //swap(rev_tail)
-    if(rev_tail[a] == NULL && rev_tail[b] == NULL) return;
-    if(rev_tail[a] == NULL){
-        rev_tail[a] = rev_tail[b];
-        rev_tail[b] = NULL;
-    }else if(rev_tail[b] == NULL){
-        rev_tail[b] = rev_tail[a];
-        rev_tail[a] = NULL;
-    }else{
-        tmp = rev_tail[a];
-        rev_tail[a] = rev_tail[b];
-        rev_tail[b] = tmp;
-    }
+    tmp = rev_tail[a];
+    rev_tail[a] = rev_tail[b];
+    rev_tail[b] = tmp;
 }
 void append(int a, int b) {
     //append list[a] to list[b]'s behind
@@ -80,10 +42,12 @@ void append(int a, int b) {
         tail[b]->next = head[a];
         tail[b] = tail[a];
         head[a] = NULL;
+        tail[a] = NULL;
 
         rev_tail[a]->next = rev_head[b];
         rev_head[b] = rev_head[a];
         rev_tail[a] = NULL;
+        rev_head[a] = NULL;
     }
 }
 void add_front(int a, int b){
@@ -96,10 +60,12 @@ void add_front(int a, int b){
         tail[a]->next = head[b];
         head[b] = head[a];
         head[a] = NULL;
+        tail[a] = NULL;
 
         rev_tail[b]->next = rev_head[a];
         rev_tail[b]= rev_tail[a];
         rev_head[a] = NULL;
+        rev_tail[a] = NULL;
     }
 }
 void reverse(int a) {
@@ -109,7 +75,7 @@ void reverse(int a) {
     use rev_head and rev_tail to reverse list[a] in o(1)
     hint: swap something
     */
-    node *tmp = (node *)malloc(sizeof(node));
+    node *tmp = head[a];
     tmp = head[a];
     head[a] = rev_head[a];
     rev_head[a] = tmp;
