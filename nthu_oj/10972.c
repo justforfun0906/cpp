@@ -28,7 +28,23 @@ BTNode* BuildNode(char c){
     return New_Node;
 }
 BTNode* EXPR(){
-    
+    BTNode* right_node = FACTOR();
+    if(position < 0 || expr[position]=='(') return right_node;
+    BTNode* head = BuildNode(expr[position--]);
+    head->right = right_node;
+    head->left = EXPR();
+    return head;
+}
+BTNode* FACTOR(){
+    char input = expr[position--];
+    BTNode* fac;
+    if(input == ')'){
+        fac = EXPR();
+        position--;//skip (
+    }else{
+        fac = BuildNode(input);
+    }
+    return fac;
 }
 int main(){
     scanf("%s", expr);
