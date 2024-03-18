@@ -46,6 +46,8 @@ BTNode* FACTOR(){
     }
     return fac;
 }
+//TODO 1: input to syntax tree 
+//TODO 2: syntax tree to infix with parentheses
 int main(){
     scanf("%s", expr);
     position = strlen(expr)-1;
