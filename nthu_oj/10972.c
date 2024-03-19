@@ -5,11 +5,11 @@
 char symbol[NUMSYM];
 char expr[270];
 int position;
+typedef enum {ID_A, ID_B, ID_C, ID_D, OP_AND, OP_OR} TokenSet;
 typedef struct _Node{
     TokenSet data;
     struct _Node *left, *right;
 }BTNode;
-typedef enum {ID_A, ID_B, ID_C, ID_D, OP_AND, OP_OR} TokenSet;
 void define_symbol(){
     symbol[0]='A';
     symbol[1]='B';
@@ -28,27 +28,38 @@ BTNode* BuildNode(char c){
     return New_Node;
 }
 BTNode* EXPR(){
-    BTNode* right_node = FACTOR();
-    if(position < 0 || expr[position]=='(') return right_node;
-    BTNode* head = BuildNode(expr[position--]);
-    head->right = right_node;
-    head->left = EXPR();
-    return head;
+
 }
 BTNode* FACTOR(){
-    char input = expr[position--];
-    BTNode* fac;
-    if(input == ')'){
-        fac = EXPR();
-        position--;//skip (
-    }else{
-        fac = BuildNode(input);
-    }
-    return fac;
+    
 }
-//TODO 1: input to syntax tree 
-//TODO 2: syntax tree to infix with parentheses
+void FreeTree(BTNode* root){
+    if(root!=NULL){
+        FreeTree(root->left);
+        FreeTree(root->right);
+        free(root);
+    }
+    return;
+}
+void printInfix(BTNode* root){
+    if(root->left!=NULL){
+        printInfix(root->left);
+    }
+    printf("%c", root->data);
+    if(root->right!=NULL){
+        if(root->right->data == '&'|| root->right->data=='|'){
+            printf("(");
+            printInfix(root->right);
+            printf(")");
+        }else{
+            printInfix(root->right);
+        }
+    }
+}
 int main(){
     scanf("%s", expr);
     position = strlen(expr)-1;
+    BTNode* root = EXPR();
+    printInfix(root);
+    FreeTree(root);
 }
