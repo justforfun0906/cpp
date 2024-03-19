@@ -10,6 +10,9 @@ typedef struct _Node{
     TokenSet data;
     struct _Node *left, *right;
 }BTNode;
+BTNode* BuildNode(char c);
+BTNode* EXPR();
+BTNode* FACTOR();
 void define_symbol(){
     symbol[0]='A';
     symbol[1]='B';
@@ -28,10 +31,25 @@ BTNode* BuildNode(char c){
     return New_Node;
 }
 BTNode* EXPR(){
-
+    BTNode* right_node = FACTOR();
+    if(position <0 || expr[position] == '('){
+        return right_node;
+    }
+    BTNode* root = BuildNode(expr[position--]);
+    root->right = right_node;
+    root->left = EXPR();
+    return root;
 }
 BTNode* FACTOR(){
-    
+    char input = expr[position--];
+    BTNode* factorized;
+    if(input == ')'){
+        factorized = EXPR();
+        position--;//skip the left parenthesis
+    }else{
+        factorized = BuildNode(input);
+    }
+    return factorized;
 }
 void FreeTree(BTNode* root){
     if(root!=NULL){
@@ -45,9 +63,9 @@ void printInfix(BTNode* root){
     if(root->left!=NULL){
         printInfix(root->left);
     }
-    printf("%c", root->data);
+    printf("%c", symbol[root->data]);
     if(root->right!=NULL){
-        if(root->right->data == '&'|| root->right->data=='|'){
+        if(symbol[root->right->data] == '&'|| symbol[root->right->data]=='|'){
             printf("(");
             printInfix(root->right);
             printf(")");
@@ -57,9 +75,10 @@ void printInfix(BTNode* root){
     }
 }
 int main(){
+    define_symbol();
     scanf("%s", expr);
     position = strlen(expr)-1;
     BTNode* root = EXPR();
     printInfix(root);
-    FreeTree(root);
+    //FreeTree(root);
 }
