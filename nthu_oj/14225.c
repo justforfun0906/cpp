@@ -29,9 +29,10 @@ int main(){
     for(int i=2;i<=N;i++){
         scanf("%d", &direct_seafu[i]);
     }
-    for(int i=2;i<=N;i++){
+    for(int i=2;i<N;i++){
         printf("%d ", find_distance(i));
     }
+    printf("%d\n", find_distance(N));
     int q; scanf("%d", &q);
     while(q--){
         int a, b;
