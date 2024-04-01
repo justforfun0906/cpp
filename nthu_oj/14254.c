@@ -11,7 +11,8 @@ char expr[2200000] = {}; // Input string representing the preorder expression of
 Node *tree[2200000] = {}; // Array to store pointers to nodes for easy access.
 int h, t, n;
 int idx = 0;
-
+//TODO: use ans to store the result of the expression tree
+//TODO: only calculate the ans when it is swapped
 // Function to build the expression tree from the input string.
 Node *build() {
     if(idx >= n) return NULL;
