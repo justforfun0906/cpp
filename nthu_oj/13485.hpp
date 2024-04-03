@@ -17,7 +17,7 @@ class String_Calculator {
 }; //end class String_Calculator
 
 //have to define the functions outside the class don't know why
-String_Calculator& String_Calculator::Add(string x){
+/*String_Calculator& String_Calculator::Add(string x){
     s += x;
     return *this;
 }
@@ -45,5 +45,5 @@ String_Calculator& String_Calculator::DividedBy(const string x){
     }
     s = to_string(cnt);
     return *this;
-}
+}*/
 #endif // FUNCTION_H
