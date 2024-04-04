@@ -1,5 +1,5 @@
-#include<bits/stdc++.h>
-#include "function.h"
+#include <bits/stdc++.h>
+#include "13862.hpp"
 using namespace std;
 
 string* ParseStatement(string statement) { // return the parsed array
@@ -45,6 +45,7 @@ int main () {
         switch(type) {
             case 1: 
                 narrator = narrator->getRelative(arr, 0, len);
+                cout<<narrator->info()<<"\n";
                 break;
             case 2: 
                 narrator->describe(arr, 0, len);
