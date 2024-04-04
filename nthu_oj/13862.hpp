@@ -47,8 +47,8 @@ Person* Person::getRelative(string* arr, int now, int len) {
         if(this->parentA == nullptr){
             this->parentA = new Person();
             this->parentA->child = this;
+            this->parentA->mate = this->parentB;
             if(this->parentB != nullptr){
-                this->parentA->mate = this->parentB;
                 this->parentB->mate = this->parentA;
             }
         }
@@ -58,9 +58,9 @@ Person* Person::getRelative(string* arr, int now, int len) {
         if(this->parentB == nullptr){
             this->parentB = new Person();
             this->parentB->child = this;
+            this->parentB->mate = this->parentA;
             if(this->parentA != nullptr){
                 this->parentA->mate = this->parentB;
-                this->parentB->mate = this->parentA;
             }
         }
         return this->parentB->getRelative(arr, now + 1, len);
