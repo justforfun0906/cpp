@@ -22,67 +22,21 @@ class Person {
         string info();
 };
 void Person::describe(string* arr, int now, int len) {
-    if(now == len) return;
-    if (arr[now] == "ParentA"){
-        if(this->parentA == nullptr){
-            this->parentA = new Person();
-            this->parentA->child = this;
-            if(this->parentB != nullptr){
-                this->parentA->mate = this->parentB;
-                this->parentB->mate = this->parentA;
-            }
-        }
-        this->parentA->describe(arr, now + 1, len);
+    Person* end = this->getRelative(arr, 0, len - 2);
+    if(arr[len-2]=="Name"){
+        end->name = arr[len-1];
     }
-    if (arr[now] == "ParentB"){
-        if(this->parentB == nullptr){
-            this->parentB = new Person();
-            this->parentB->child = this;
-            if(this->parentA != nullptr){
-                this->parentA->mate = this->parentB;
-                this->parentB->mate = this->parentA;
-            }
-        }
-        this->parentB->describe(arr, now + 1, len);
+    if(arr[len-2]=="Age"){
+        end->age = stoi(arr[len-1]);
     }
-    if (arr[now] == "Mate"){
-        if(this->mate == nullptr){
-            this->mate = new Person();
-            this->mate->mate = this;
-            this->mate->child = this->child;
-            if(this->child!=nullptr){
-                if(this->child->parentB == nullptr)this->child->parentB = this->mate;
-                else this->child->parentA = this->mate;
-            }
-        }
-        this->mate->describe(arr, now + 1, len);
+    if(arr[len-2]=="Personality"){
+        end->personality += " "+arr[len-1];
     }
-    if (arr[now] == "Child"){
-        if(this->child == nullptr){
-            this->child = new Person();
-            this->child->parentA = this;
-            if(this->mate != nullptr){
-                this->child->parentB = this->mate;
-            }
-        }
-        this->child->describe(arr, now + 1, len);
-    }
-    else{
-        if(arr[now]=="Name"){
-            this->name = arr[now + 1];
-        }
-        if(arr[now]=="Age"){
-            this->age = stoi(arr[now + 1]);
-        }
-        if(arr[now]=="Personality"){
-            this->personality += " "+arr[now + 1];
-        }
-        if(arr[now]=="Gender"){
-            if(arr[now + 1] == "MALE"){
-                this->gender = MALE;
-            }else{
-                this -> gender = FEMALE;
-            }
+    if(arr[len-2]=="Gender"){
+        if(arr[len-1] == "MALE"){
+            end -> gender = MALE;
+        }else{
+            end -> gender = FEMALE;
         }
     }
     return;
@@ -127,8 +81,9 @@ Person* Person::getRelative(string* arr, int now, int len) {
         if(this->child == nullptr){
             this->child = new Person();
             this->child->parentA = this;
-            if(this->mate != nullptr&&this->child->parentB == nullptr){
-                this->child->parentB = this->mate;
+            this->child->parentB = this->mate;
+            if(this->mate != nullptr){
+                this->mate->child = this->child;
             }
         }
         return this->child->getRelative(arr, now + 1, len);
