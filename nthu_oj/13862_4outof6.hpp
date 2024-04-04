@@ -22,7 +22,6 @@ class Person {
         string info();
 };
 void Person::describe(string* arr, int now, int len) {
-    if(now == len) return;
     if (arr[now] == "ParentA"){
         if(this->parentA == nullptr){
             this->parentA = new Person();
