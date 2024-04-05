@@ -30,7 +30,7 @@ void Person::describe(string* arr, int now, int len) {
         end->age = stoi(arr[len-1]);
     }
     if(arr[len-2]=="Personality"){
-        end->personality += " "+arr[len-1];
+        end->personality += end->personality == "" ? arr[len-1] : " " + arr[len-1];
     }
     if(arr[len-2]=="Gender"){
         if(arr[len-1] == "MALE"){
