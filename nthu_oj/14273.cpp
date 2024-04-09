@@ -12,6 +12,7 @@ int main() {
         while (true) {
             cin >> player[actionSize];
             cin >> action[actionSize][0] >> action[actionSize][1];
+            //cout<< "action: "<<actionSize<<"player: "<<player[actionSize]<<"action[0]: "<<action[actionSize][0]<<"action[1]: "<<action[actionSize][1]<<"\n";
             if (player[actionSize] == "-") break;
             actionSize++;
         }
@@ -27,8 +28,8 @@ int main() {
                 success = game->remove(2, action[i][1]);
             }
             if (success) {
-                // cout << player[i] << ": " << action[i][0] << "/" << action[i][1] << "\n"; 
-                // game->showBoard();
+                //cout << player[i] << ": " << action[i][0] << "/" << action[i][1] << "\n"; 
+                //game->showBoard();
                 result = game->getWinner();
                 if (result) break;
                 game->nextRound();

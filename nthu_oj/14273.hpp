@@ -89,24 +89,24 @@ class GomokuGame {
         int getWinner(); 
 };    
 bool GomokuGame::place(int player, string location){
-    int x = location[0] - 'A';
-    int y = location[1] - '1';
-    if(gomokuBoard->get(x, y) == 0){
+    int x = location[0] - '0';
+    int y = location[1] - '0';
+    if(gomokuBoard->get(x, y) == 0&&this->turn == player){
         gomokuBoard->set(x, y, player);
         return true;
     }
     return false;
 }
 bool GomokuGame::remove(int player, string location){
-    int x = location[0] - 'A';
-    int y = location[1] - '1';
-    if(gomokuBoard->get(x, y) == player){
+    int x = location[0] - '0';
+    int y = location[1] - '0';
+    if(gomokuBoard->get(x, y) != 0&&this->turn == player){
         gomokuBoard->set(x, y, 0);
         return true;
     }
     return false;
 }
-int GomokuGame::getWinner(){
+int GomokuGame::getWinner(){//return 0 if no winner, 1 if Doraemon wins, 2 if DebugCatCapoo wins
     for(int i = 0; i < gomokuBoard->getSize(); ++i){
         for(int j = 0; j < gomokuBoard->getSize(); ++j){
             if(gomokuBoard->get(i, j) != 0){
