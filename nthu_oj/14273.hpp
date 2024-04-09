@@ -91,7 +91,7 @@ class GomokuGame {
 bool GomokuGame::place(int player, string location){
     int x = location[0] - '0';
     int y = location[1] - '0';
-    if(gomokuBoard->get(x, y) == 0&&this->turn == player){
+    if(gomokuBoard->get(x, y) == 0&& turn == player){
         gomokuBoard->set(x, y, player);
         return true;
     }
@@ -100,7 +100,7 @@ bool GomokuGame::place(int player, string location){
 bool GomokuGame::remove(int player, string location){
     int x = location[0] - '0';
     int y = location[1] - '0';
-    if(gomokuBoard->get(x, y) !=0 &&this->turn == player){
+    if(gomokuBoard->get(x, y) !=0 && turn == player){
         gomokuBoard->set(x, y, 0);
         return true;
     }
