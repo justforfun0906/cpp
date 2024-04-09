@@ -28,8 +28,8 @@ int main() {
                 success = game->remove(2, action[i][1]);
             }
             if (success) {
-                //cout << player[i] << ": " << action[i][0] << "/" << action[i][1] << "\n"; 
-                //game->showBoard();
+                cout << player[i] << ": " << action[i][0] << "/" << action[i][1] << "\n"; 
+                game->showBoard();
                 result = game->getWinner();
                 if (result) break;
                 game->nextRound();
