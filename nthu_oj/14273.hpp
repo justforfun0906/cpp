@@ -107,23 +107,22 @@ bool GomokuGame::remove(int player, string location){
     return false;
 }
 int GomokuGame::getWinner(){//return 0 if no winner, 1 if Doraemon wins, 2 if DebugCatCapoo wins
+    int dx[4]={1, 0, -1, 0};
+    int dy[4]={0, 1, 0, -1};
     for(int i = 0; i < gomokuBoard->getSize(); ++i){
         for(int j = 0; j < gomokuBoard->getSize(); ++j){
             if(gomokuBoard->get(i, j) != 0){
                 int player = gomokuBoard->get(i, j);
-                for(int dx = -1; dx <= 1; ++dx){
-                    for(int dy = -1; dy <= 1; ++dy){
-                        if(dx == 0 && dy == 0) continue;
-                        int cnt = 1;
-                        for(int k = 1; k < 5; ++k){
-                            int x = i + dx * k;
-                            int y = j + dy * k;
-                            if(x < 0 || x >= gomokuBoard->getSize() || y < 0 || y >= gomokuBoard->getSize()) break;
-                            if(gomokuBoard->get(x, y) == player) cnt++;
-                            else break;
-                        }
-                        if(cnt == 5) return player;
+                for(int k = 0; k < 4; ++k){
+                    int cnt = 1;
+                    for(int l = 1; l < 5; ++l){
+                        int x = i + dx[k] * l;
+                        int y = j + dy[k] * l;
+                        if(x < 0 || x >= gomokuBoard->getSize() || y < 0 || y >= gomokuBoard->getSize()) break;
+                        if(gomokuBoard->get(x, y) != player) break;
+                        cnt++;
                     }
+                    if(cnt == 5) return player;
                 }
             }
         }
