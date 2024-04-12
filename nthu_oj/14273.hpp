@@ -79,12 +79,12 @@ class GomokuGame {
             turn = (turn == 1 ? 2 : 1);
         }
 
-        /* TODO: Place or remove the piece at the specified location
+        /* TODO(done): Place or remove the piece at the specified location
                  Return true if the operation completes successfully */
         bool place(int player, string location);
         bool remove(int player, string location);
     
-        /* TODO: Return 1 if Doraemon wins, 2 if DebugCatCapoo wins,
+        /* TODO(done): Return 1 if Doraemon wins, 2 if DebugCatCapoo wins,
                  or 0 if the game has not yet ended */
         int getWinner(); 
 };    
