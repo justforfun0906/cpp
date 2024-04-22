@@ -6,6 +6,7 @@ struct st{
 };
 class Number{
     int num;
+    friend std::istream &operator>>(istream &in,Number &n);
     public:
     int a,b;
     Number(int a,int b){
@@ -18,8 +19,12 @@ class Number{
     void print(){
         cout<<"printing "<<this->show()<<endl;
     }
-};
 
+};
+istream &operator>>(std::istream &in, Number &n){
+    in >> n.a >> n.b;
+    return in;
+}
 int main(){
     Number n(2,3);
     n.print();

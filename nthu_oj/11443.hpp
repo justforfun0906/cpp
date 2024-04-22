@@ -1,10 +1,9 @@
 #ifndef SHAPE_H
 #define SHAPE_H
-
+#include<iostream>
 namespace oj
 {
-	class Shape3D
-	{	
+	class Shape3D{	
 		double volume;
 
 	public:
@@ -14,8 +13,7 @@ namespace oj
 		void setVolume(double volume);
 	};
 
-	class Sphere : public Shape3D
-	{
+	class Sphere : public Shape3D{
 		double radius;
 		double pi;
 	
@@ -23,8 +21,7 @@ namespace oj
 		Sphere(double, double);
 	};
 
-	class Cone : public Shape3D
-	{
+	class Cone : public Shape3D{
 		double radius;
 		double height;
 		double pi;
@@ -33,8 +30,7 @@ namespace oj
 		Cone(double, double, double);
 	};
 
-	class Cuboid : public Shape3D
-	{
+	class Cuboid : public Shape3D{
 		double length;
 		double width;
 		double height;
@@ -43,8 +39,7 @@ namespace oj
 		Cuboid(double, double, double);
 	};
 
-	class Cube : public Cuboid
-	{
+	class Cube : public Cuboid{
 	public:
 		Cube(double);
 	};
