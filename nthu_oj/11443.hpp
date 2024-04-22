@@ -46,24 +46,40 @@ namespace oj
 }
 oj::Cone::Cone(double r, double h, double p)
 {
-    radius = r;
-    height = h;
-    pi = p;
-    setVolume(1.0/3.0 * pi * r * r * h);
+    this->radius = r;
+    this->height = h;
+    this->pi = p;
+	if(r<=0 || h<=0 || p<=0){
+		setVolume(0);
+	}else{
+		setVolume(1.0/3.0 * pi * r * r * h);
+	}
 }
 oj::Sphere::Sphere(double r, double p)
 {
-    radius = r;
-    pi = p;
-    setVolume(4.0/3.0 * pi * r * r * r);
+    this->radius = r;
+    this->pi = p;
+	if(r<=0 || p<=0){
+		setVolume(0);
+	}else{
+    	setVolume(4.0/3.0 * pi * r * r * r);
+	}
 }
 oj::Cuboid::Cuboid(double l, double w, double h){
-    length = l;
-    width = w;
-    height = h;
-    setVolume(l * w * h);
+    this->length = l;
+    this->width = w;
+    this->height = h;
+	if(l<=0 || w<=0 || h<=0){
+		setVolume(0);
+	}else{
+    	setVolume(l * w * h);
+	}
 }
 oj::Cube::Cube(double a):Cuboid(a, a, a){
-    setVolume(a * a * a);
+    if(a<=0){
+		setVolume(0);
+	}else{
+		setVolume(a * a * a);
+	}
 }
 #endif
