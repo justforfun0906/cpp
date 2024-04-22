@@ -3,16 +3,16 @@ using namespace std;
 class Number{
     int num;
     public:
-    Number(int n){
+    Number(int n=3){
         num = n;
     }
-    void show(){
+    void show() const{
         cout << num << endl;
     }
 };
 int main(){
-    int temp;
-    cin>>temp;
-    Number a(temp);
-    a.show();
+    Number n;
+    n.show();
+
+    return 0;
 }
