@@ -5,7 +5,8 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
-
+#include <cmath>
+#include <numeric>
 using namespace std;
 
 class Fraction {
@@ -32,9 +33,9 @@ class Fraction {
 
         // Constructor that initializes a fraction and reduces it using the greatest common divisor.
         Fraction(long long num, long long den) {
-            long long gcd = __gcd(num, den);
-            numerator = num / gcd;
-            denominator = den / gcd;
+            long long GCD = gcd(num, den);
+            numerator = num / GCD;
+            denominator = den / GCD;
         }
 
         // Constructor that creates a fraction from a string representation.
