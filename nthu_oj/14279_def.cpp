@@ -40,6 +40,7 @@ istream& operator>>(istream &is,Fraction &f){
 }
 
 FractionList::FractionList(const FractionList &f){//deep copy
+    cout<<"FractionList Deep copy constructor called"<<endl;
     FractionList *temp = this;
     const FractionList *f_temp = &f;
     while(f_temp->nextFraction!=NULL){//until the last fractionList node
@@ -74,11 +75,13 @@ FractionList* FractionList::operation(string ope, Fraction *frac){
     }
 }
 Fraction FractionList::getResult(){
+    cout<<"In getResult"<<endl;
     FractionList *temp = this;
     Fraction result = *(temp->fraction);
     while(temp->nextFraction!=NULL){
         temp = temp->nextFraction;
         result = result + *(temp->fraction);
+        cout<<"now result = "<<result<<endl;
     }
     return result;
 }

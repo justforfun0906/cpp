@@ -94,6 +94,14 @@ class FractionList {
         FractionList *nextFraction;
 
     public:
+        void printList(){
+            FractionList *temp = this;
+            while(temp->nextFraction!=NULL){
+                cout<<*(temp->fraction)<<" ";
+                temp = temp->nextFraction;
+            }
+            cout<<*(temp->fraction)<<endl;
+        }
         // Default constructor for the FractionList class.
         FractionList(): fraction(nullptr), nextFraction(nullptr) {}
 
