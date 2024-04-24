@@ -39,18 +39,46 @@ istream& operator>>(istream &is,Fraction &f){
     return is;
 }
 
-FractionList::FractionList(const FractionList &f){
+FractionList::FractionList(const FractionList &f){//deep copy
     FractionList *temp = this;
-    this->fraction = new Fraction(*(f.fraction));
-    while(f.nextFraction!=NULL){
-        this->fraction = new Fraction(*(f.nextFraction->fraction));
-        temp->nextFraction = new FractionList(*(f.nextFraction->fraction));
+    const FractionList *f_temp = &f;
+    while(f_temp->nextFraction!=NULL){//until the last fractionList node
+        temp->fraction = new Fraction(*(f_temp->nextFraction->fraction));
+        temp->nextFraction = new FractionList(f.nextFraction->fraction);//create a new FractionList node with the other constructor
         temp = temp->nextFraction;
+        f_temp = f_temp->nextFraction;//move to next node
+    }
+    temp->fraction = new Fraction(*(f.fraction));
+    temp->nextFraction = NULL;//the last node
+}
+FractionList& FractionList::operator=(const FractionList& f){
+    *(this->fraction) = Fraction(*(f.fraction));
+    return *this;
+}
+FractionList::~FractionList(){
+    FractionList *temp = this;
+    while(temp->nextFraction!=NULL){
+        FractionList *temp2 = temp;
+        temp = temp->nextFraction;
+        delete temp2->fraction;
+        delete temp2;
     }
 }
-int main(){
-    Fraction a(1,2), b(1,3);
-    cout << a + b << endl;
-    a*=b;
-    cout << a << endl;
+FractionList* FractionList::operation(string ope, Fraction *frac){
+    if(ope=="+"){
+        this->nextFraction = new FractionList(frac);
+        return this->nextFraction;
+    }else if(ope=="*"){
+        *(this->fraction) *= *frac;
+        return this;
+    }
+}
+Fraction FractionList::getResult(){
+    FractionList *temp = this;
+    Fraction result = *(temp->fraction);
+    while(temp->nextFraction!=NULL){
+        temp = temp->nextFraction;
+        result = result + *(temp->fraction);
+    }
+    return result;
 }
