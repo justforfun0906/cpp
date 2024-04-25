@@ -21,9 +21,9 @@ int Fraction::operator()(const int& n){//return the nth digit after the decimal 
     long long num = this->numerator;
     long long den = this->denominator;
     for(int i=0;i<n;i++){
-        num = num*10%(this->denominator*10);
+        num = (num*10)%(this->denominator*10);
     }
-    return (int)(num/this->denominator);
+    return (int)(num/den);
 }
 long long Fraction::getIntegerPart(){
     return this->numerator/this->denominator;
@@ -43,22 +43,22 @@ istream& operator>>(istream &is,Fraction &f){
 //TODO: read this func
 FractionList::FractionList(const FractionList &f){//deep copy
     this->fraction = new Fraction(*(f.fraction));
-    this->nextFraction = f.nextFraction==NULL
+    this->nextFraction = f.nextFraction==nullptr
     ? nullptr
     : new FractionList(*(f.nextFraction));//recursively copy the next one until nullptr
 }
 //TODO: wtf does this do
 FractionList& FractionList::operator=(const FractionList& f){
-    FractionList new_fraclist(f);
+    FractionList new_fraclist = FractionList(f);
     swap(this->fraction,new_fraclist.fraction);
     swap(this->nextFraction,new_fraclist.nextFraction);
     return *this;
 }
 FractionList::~FractionList(){
     //delete current node data
-    if(this->fraction!=NULL) delete this->fraction;
+    if(this->fraction!=nullptr) delete this->fraction;
     //delete next one
-    if(this->nextFraction!=NULL) delete this->nextFraction;
+    if(this->nextFraction!=nullptr) delete this->nextFraction;
 }
 FractionList* FractionList::operation(string ope, Fraction *frac){
     if(ope=="+"){
@@ -71,10 +71,10 @@ FractionList* FractionList::operation(string ope, Fraction *frac){
 }
 Fraction FractionList::getResult(){
     FractionList *temp = this;
-    Fraction result = *(temp->fraction);
-    while(temp->nextFraction!=nullptr){
-        temp = temp->nextFraction;
+    Fraction result = Fraction();
+    while(temp!=nullptr){
         result = result + *(temp->fraction);
+        temp = temp->nextFraction;
     }
     return result;
 }
