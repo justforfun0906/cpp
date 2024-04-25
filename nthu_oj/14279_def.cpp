@@ -17,12 +17,13 @@ Fraction& Fraction::operator*=(const Fraction &f){
     return *this;
 }
 int Fraction::operator()(const int& n){//return the nth digit after the decimal point
+    //TODO: check how this works lol
     long long num = this->numerator;
     long long den = this->denominator;
     for(int i=0;i<n;i++){
-        num = num*10;
+        num = num*10%(this->denominator*10);
     }
-    return (num/den)%10;
+    return (int)(num/this->denominator);
 }
 long long Fraction::getIntegerPart(){
     return this->numerator/this->denominator;
@@ -34,36 +35,30 @@ ostream& operator<<(ostream &os,const Fraction &f){
 istream& operator>>(istream &is,Fraction &f){
     string frac;
     is>>frac;
+    if(is.eof()) return is;//if the input is empty
     f.numerator = f.parseNumerator(frac);
     f.denominator = f.parseDenominator(frac);
     return is;
 }
-
+//TODO: read this func
 FractionList::FractionList(const FractionList &f){//deep copy
-    cout<<"FractionList Deep copy constructor called"<<endl;
-    FractionList *temp = this;
-    const FractionList *f_temp = &f;
-    while(f_temp->nextFraction!=NULL){//until the last fractionList node
-        temp->fraction = new Fraction(*(f_temp->nextFraction->fraction));
-        temp->nextFraction = new FractionList(f.nextFraction->fraction);//create a new FractionList node with the other constructor
-        temp = temp->nextFraction;
-        f_temp = f_temp->nextFraction;//move to next node
-    }
-    temp->fraction = new Fraction(*(f.fraction));
-    temp->nextFraction = NULL;//the last node
+    this->fraction = new Fraction(*(f.fraction));
+    this->nextFraction = f.nextFraction==NULL
+    ? nullptr
+    : new FractionList(*(f.nextFraction));//recursively copy the next one until nullptr
 }
+//TODO: wtf does this do
 FractionList& FractionList::operator=(const FractionList& f){
-    *(this->fraction) = Fraction(*(f.fraction));
+    FractionList new_fraclist(f);
+    swap(this->fraction,new_fraclist.fraction);
+    swap(this->nextFraction,new_fraclist.nextFraction);
     return *this;
 }
 FractionList::~FractionList(){
-    FractionList *temp = this;
-    while(temp->nextFraction!=NULL){
-        FractionList *temp2 = temp;
-        temp = temp->nextFraction;
-        delete temp2->fraction;
-        delete temp2;
-    }
+    //delete current node data
+    if(this->fraction!=NULL) delete this->fraction;
+    //delete next one
+    if(this->nextFraction!=NULL) delete this->nextFraction;
 }
 FractionList* FractionList::operation(string ope, Fraction *frac){
     if(ope=="+"){
@@ -75,13 +70,11 @@ FractionList* FractionList::operation(string ope, Fraction *frac){
     }
 }
 Fraction FractionList::getResult(){
-    cout<<"In getResult"<<endl;
     FractionList *temp = this;
     Fraction result = *(temp->fraction);
-    while(temp->nextFraction!=NULL){
+    while(temp->nextFraction!=nullptr){
         temp = temp->nextFraction;
         result = result + *(temp->fraction);
-        cout<<"now result = "<<result<<endl;
     }
     return result;
 }
