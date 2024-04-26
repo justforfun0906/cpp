@@ -76,7 +76,9 @@ oj::Cuboid::Cuboid(double l, double w, double h){
 	}
 }
 oj::Cube::Cube(double a):Cuboid(a, a, a){
-    if(a<=0){
+	//containing a cuboid with length, width, height all equal to a
+    //calling a constructor of the base class with parameters a, a, a
+	if(a<=0){
 		setVolume(0);
 	}else{
 		setVolume(a * a * a);
