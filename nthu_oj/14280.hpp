@@ -5,7 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
-
+#include <numeric> 
 using namespace std;
 
 class Fraction {
@@ -32,9 +32,9 @@ class Fraction {
 
         // Constructor that initializes a fraction and reduces it using the greatest common divisor.
         Fraction(long long num, long long den) {
-            long long gcd = __gcd(num, den);
-            numerator = num / gcd;
-            denominator = den / gcd;
+            long long GCD = gcd(num, den);
+            numerator = num / GCD;
+            denominator = den / GCD;
         }
 
         // Constructor that creates a fraction from a string representation.
@@ -54,7 +54,10 @@ class Fraction {
         // --> Fraction f;
         //     cin >> f;                      // 6/7 (numerator = 6, denominator = 7)
         friend istream& operator>>(istream& is, Fraction& frac);
-
+        friend ostream& operator<<(ostream& os, const Fraction& frac) {
+            os << frac.numerator << "/" << frac.denominator;
+            return os;
+        }
         /* ***** TODO ***** */
         // Compares this Fraction to another Fraction
         // to determine if it is (< / > / <= / >=) the other.
@@ -63,7 +66,29 @@ class Fraction {
         bool operator<=(const Fraction& frac);
         bool operator>=(const Fraction& frac);
 };
-
+Fraction Fraction::operator+(const Fraction& frac){
+    long long num = numerator * frac.denominator + frac.numerator * denominator;
+    long long den = denominator * frac.denominator;
+    return Fraction(num, den);
+}
+istream& operator>>(istream& is, Fraction& frac) {
+    string str;
+    is >> str;
+    frac = Fraction(str);
+    return is;
+}
+bool Fraction::operator<(const Fraction& frac) {
+    return (numerator * frac.denominator < frac.numerator * denominator);
+}
+bool Fraction::operator>(const Fraction& frac) {
+    return (numerator * frac.denominator > frac.numerator * denominator);
+}
+bool Fraction::operator<=(const Fraction& frac) {
+    return (numerator * frac.denominator <= frac.numerator * denominator);
+}
+bool Fraction::operator>=(const Fraction& frac) {
+    return (numerator * frac.denominator >= frac.numerator * denominator);
+}
 class FractionList {
     private:
         Fraction *fraction;
@@ -76,14 +101,14 @@ class FractionList {
         // Constructor that initializes the list with a single fraction.
         FractionList(Fraction *f): fraction(f), nextFraction(nullptr) {}
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // Copy constructor: performs a "deep copy" of the entire FractionList.
         // This is necessary to ensure that each FractionList instance
         // has its own separate copies of Fraction objects and linked FractionList nodes,
         // preventing issues related to multiple deletions of the same memory during destruction.
         FractionList(const FractionList& fraclist);
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // Assigns a new value to the FractionList object, replacing its current contents,
         // and properly disposing of the old contents.
         // Notice: Adding "return *this" allows the operator to return a reference to the object itself. 
@@ -92,7 +117,7 @@ class FractionList {
         // using the result of the previous assignment.
         FractionList& operator=(const FractionList& fraclist);
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // Adds a new Fraction to the end of the linked list.
         // This operator takes a Fraction object as input and appends it
         // to the end of the current FractionList.
@@ -100,11 +125,11 @@ class FractionList {
         // ensuring the new Fraction is added at the end.
         FractionList& operator+=(const Fraction& frac);
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // Destructor that recursively deletes all fractions in the list to prevent memory leaks.
         ~FractionList();
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // At the end of all * operations, 
         // traverse through the FractionList and summing them up to compute the final result.
         //
@@ -113,5 +138,7 @@ class FractionList {
         //     to perform the addition of the fractions in the list.
         Fraction getResult();
 };
-
+FractionList::FractionList(const FractionList& fraclist){
+    this->fraction = new Fraction(*(fraclist.fraction));
+}
 #endif

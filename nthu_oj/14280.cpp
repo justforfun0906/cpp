@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "function.h"
+#include "14280.hpp"
 using namespace std;
 
 int main() {
