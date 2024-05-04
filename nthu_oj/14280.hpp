@@ -101,14 +101,14 @@ class FractionList {
         // Constructor that initializes the list with a single fraction.
         FractionList(Fraction *f): fraction(f), nextFraction(nullptr) {}
 
-        /* ***** TODO: ***** */
+        /* ***** TODO ***** */
         // Copy constructor: performs a "deep copy" of the entire FractionList.
         // This is necessary to ensure that each FractionList instance
         // has its own separate copies of Fraction objects and linked FractionList nodes,
         // preventing issues related to multiple deletions of the same memory during destruction.
         FractionList(const FractionList& fraclist);
 
-        /* ***** TODO: ***** */
+        /* ***** TODO ***** */
         // Assigns a new value to the FractionList object, replacing its current contents,
         // and properly disposing of the old contents.
         // Notice: Adding "return *this" allows the operator to return a reference to the object itself. 
@@ -117,7 +117,7 @@ class FractionList {
         // using the result of the previous assignment.
         FractionList& operator=(const FractionList& fraclist);
 
-        /* ***** TODO: ***** */
+        /* ***** TODO ***** */
         // Adds a new Fraction to the end of the linked list.
         // This operator takes a Fraction object as input and appends it
         // to the end of the current FractionList.
@@ -125,7 +125,7 @@ class FractionList {
         // ensuring the new Fraction is added at the end.
         FractionList& operator+=(const Fraction& frac);
 
-        /* ***** TODO: ***** */
+        /* ***** TODO ***** */
         // Destructor that recursively deletes all fractions in the list to prevent memory leaks.
         ~FractionList();
 
@@ -139,6 +139,33 @@ class FractionList {
         Fraction getResult();
 };
 FractionList::FractionList(const FractionList& fraclist){
-    this->fraction = new Fraction(*(fraclist.fraction));
+    if(fraclist.fraction)this->fraction = new Fraction(*(fraclist.fraction));
+    else this->fraction = nullptr;
+    //recursivly calling the copy constructor
+    if(fraclist.nextFraction)this->nextFraction = new FractionList(*(fraclist.nextFraction));
+    else this->nextFraction = nullptr;
+}
+FractionList& FractionList::operator=(const FractionList& fraclist){
+    FractionList temp_list = FractionList(fraclist);
+    swap(temp_list.fraction, this->fraction);
+    swap(temp_list.nextFraction, this->nextFraction);
+    //delete the old list automatically
+    return *this;
+}
+FractionList& FractionList::operator+=(const Fraction& frac){
+    FractionList *list = this;
+    while(list->nextFraction)list = list->nextFraction;
+    list->nextFraction = new FractionList(new Fraction(frac));
+    //fractionlist constructor -> fraction constructor -> fraction in parameter
+    return *this;
+}   
+FractionList::~FractionList(){
+    delete fraction;
+    if(this->nextFraction) delete nextFraction;
+}
+Fraction FractionList::getResult(){
+    Fraction answer=Fraction(*fraction);//answer = this->fraction
+    if(nextFraction)answer = answer + nextFraction->getResult();
+    return answer;
 }
 #endif
