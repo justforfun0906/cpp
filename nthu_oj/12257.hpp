@@ -46,6 +46,7 @@ public:
   ~Dog(); // TODO
 };
 Dog::Dog(Zoo *zoo):Animal(zoo, "Dog"){
+  //call the animal construction function
   this->legs = 4;
 }
 Dog::~Dog(){
@@ -61,6 +62,7 @@ public:
   ~Cat(); // TODO
 };
 Cat::Cat(Zoo *zoo):Animal(zoo, "Cat"){
+  //call the animal construction function
   this->legs = 4;
 }
 Cat::~Cat(){
