@@ -1,18 +1,30 @@
 #include<iostream>
 using namespace std;
-class Number{
-    int num;
-    public:
-    Number(int n=3){
-        num = n;
+class Base{
+public:
+    Base(){
+        cout << "Base Class Constructor called" << endl;
     }
-    void show() const{
-        cout << num << endl;
+};
+class X: public Base{
+public:
+    X(){
+        cout << "Derived Class X Constructor"<< endl;
+    }
+};
+class Y: public Base{
+public:
+    Y(){
+        cout << "Derived Class Y Constructor"<< endl;
+    }
+};
+class XY: public X, public Y{
+public:
+    XY(){
+        cout << "Derived Class XY Constructor"<< endl;
     }
 };
 int main(){
-    Number n;
-    n.show();
-
+    XY obj;
     return 0;
 }
