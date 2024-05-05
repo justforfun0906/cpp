@@ -27,6 +27,7 @@ public:
   virtual void carton() = 0;
   void printSpecies() { cout << this->species << "\n"; }
   virtual ~Animal() {
+    cout<<"deleting "<<species<<endl;
     if (this->belong != NULL)
       this->belong->dead(this->species);
   }; // Please Ensure that you know what this destructure is.
@@ -48,6 +49,7 @@ Dog::Dog(Zoo *zoo):Animal(zoo, "Dog"){
   this->legs = 4;
 }
 Dog::~Dog(){
+  //call the destruction function of the base class
   //this->belong->dead("Dog");
 }
 class Cat : public virtual Animal {
@@ -76,6 +78,7 @@ Caog::Caog(Zoo *zoo):Dog(zoo),Cat(zoo),Animal(zoo, "Caog"){
   //only contain one animal base class
 }
 Caog::~Caog(){
+  //call the destruction function of the base class
   //this->belong->dead("Caog");
 }
 void Caog::barking(){
