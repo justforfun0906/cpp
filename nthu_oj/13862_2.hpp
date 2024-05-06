@@ -79,11 +79,14 @@ Person* Person::getRelative(string* arr, int now, int len){
             this->mate->child = this->child;
             if(this->child!=nullptr){
                 if(this->child->parentB==nullptr){
-                    //this->child has no parentB but a child must have one parent
-                    //->it has parentA but no parentB
+                    //this->child has no parentB
+                    //this->child's parentA = this
+                    //=> this->child's parentB = this->mate
                     this->child->parentB = this->mate;
-                }else{//this-> child has parentB but no parentA
-                    //FIXME: really important case ==
+                }else{
+                    //this-> child has parentB but no parentA
+                    //this-> child's parentB = this
+                    //FIXME: really important case
                     this->child->parentA = this->mate;
                 }
             }
