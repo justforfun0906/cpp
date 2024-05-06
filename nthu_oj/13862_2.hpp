@@ -55,6 +55,7 @@ Person* Person::getRelative(string* arr, int now, int len){
         if(this->parentA==nullptr){
             this->parentA = new Person();
             this->parentA->child = this;
+            //new person's pointer are default to nullptr
             if(this->parentB!=nullptr){//not likely to happen
                 this->parentA->mate = this->parentB;
                 this->parentB->mate = this->parentA;
@@ -75,21 +76,28 @@ Person* Person::getRelative(string* arr, int now, int len){
         if(this->mate==nullptr){
             this->mate = new Person();
             this->mate->mate = this;
-        }
-        if(this->child!=nullptr){
             this->mate->child = this->child;
-            this->child->parentA = this;
-            this->child->parentB = this->mate;
+            if(this->child!=nullptr){
+                if(this->child->parentB==nullptr){
+                    //this->child has no parentB but a child must have one parent
+                    //->it has parentA but no parentB
+                    this->child->parentB = this->mate;
+                }else{//this-> child has parentB but no parentA
+                    //FIXME: really important case ==
+                    this->child->parentA = this->mate;
+                }
+            }
         }
         return this->mate->getRelative(arr, now+1, len);
     }else if(arr[now]=="Child"){
         if(this->child == nullptr){
             this->child = new Person();
             this->child->parentA = this;
-        }
-        if(this->mate!=nullptr){
             this->child->parentB = this->mate;
-            this->mate->child = this->child;
+            //guarantee by the problem description
+            if(this->mate!=nullptr){
+                this->mate->child = this->child;
+            }
         }
         return this->child->getRelative(arr, now+1, len);
     }
