@@ -2,22 +2,28 @@
 #define _FUNC_H
 #include <iostream>
 #include <string>
+using namespace std;
 
 class Codec {
 public:
-    Codec(std::string s): encoded{false}, code_str{s} { }
+    Codec(string s): encoded{false}, code_str{s} { }
     virtual ~Codec() { } // virtual destructor; do nothing
     virtual void encode() = 0;
     virtual void decode() = 0;
-    void show(std::ostream& os) const {
+    void show(ostream& os) const {
         os << code_str;
     }
     bool is_encoded() const { return encoded; }
 protected:
     bool encoded;
-    std::string code_str;
+    string code_str;
 };
+class DummyCodec: public Codec {
 
-Codec* getCodec(const std::string& type, const std::string& is);
+};
+class RleCodec: public Codec {
+
+};
+Codec* getCodec(const string& type, const string& is);
 
 #endif

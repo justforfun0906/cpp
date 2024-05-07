@@ -1,7 +1,7 @@
 #include <iostream>
 #include "14281.hpp"
-
-std::ostream& operator<<(std::ostream& os, Codec& data)
+using namespace std;
+ostream& operator<<(ostream& os, Codec& data)
 {
     data.show(os);
     return os;
@@ -18,26 +18,26 @@ void encode_decode(Codec & data)
 
 int main()
 {
-    std::string input_string;
-    std::cin >> input_string;
+    string input_string;
+    cin >> input_string;
 
     Codec** CodecPtr = new Codec*[2];
 
     CodecPtr[0] = getCodec("Dummy",input_string);
     encode_decode(*CodecPtr[0]);
-    std::cout << "Dummy encoding: ";
-    std::cout << *CodecPtr[0] << std::endl;
+    cout << "Dummy encoding: ";
+    cout << *CodecPtr[0] << endl;
     encode_decode(*CodecPtr[0]);
-    std::cout << "Dummy decoding: ";
-    std::cout << *CodecPtr[0] << std::endl;
+    cout << "Dummy decoding: ";
+    cout << *CodecPtr[0] << endl;
 
     CodecPtr[1] = getCodec("RLE",input_string);
     encode_decode(*CodecPtr[1]);
-    std::cout << "RLE encoding: ";
-    std::cout << *CodecPtr[1] << std::endl;
+    cout << "RLE encoding: ";
+    cout << *CodecPtr[1] << endl;
     encode_decode(*CodecPtr[1]);
-    std::cout << "RLE decoding: ";
-    std::cout << *CodecPtr[1] << std::endl;
+    cout << "RLE decoding: ";
+    cout << *CodecPtr[1] << endl;
 
     delete CodecPtr[0];
     delete CodecPtr[1];
