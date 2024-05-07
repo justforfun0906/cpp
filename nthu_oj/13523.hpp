@@ -63,9 +63,11 @@ class INT {
         Darray data;
 };
 void INT::operator+=(INT &x){
-    int range = this->data.length()<x.data.length()?this->data.length():x.data.length();
     int carry = 0;
-    for(int i=0;i<range;i++){
+    for(int i=0;i<x.data.length();i++){
+        if(i>=this->data.length()){
+            this->data.pushback(0);
+        }
         this->data[i] += x.data[i]+carry;
         if(this->data[i]>=10){
             this->data[i] -= 10;
@@ -75,10 +77,10 @@ void INT::operator+=(INT &x){
         }
     }
     if(carry){
-        if(this->data.length()<x.data.length()){
-            this->data.pushback(x.data[range]+carry);
+        if(this->data.length()>x.data.length()){
+            this->data[x.data.length()] += carry;
         }else{
-            this->data[range] += carry;
+            this->data.pushback(carry);
         }
     }
 }
