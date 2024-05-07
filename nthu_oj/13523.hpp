@@ -28,10 +28,10 @@ Darray::~Darray(){
     delete[] data;
 }
 int& Darray::operator[](int index){
-    return data[index];
+    return this->data[index];
 }
 void Darray::pushback(int x){
-    if(size == capacity){
+    if(size >= capacity){
         resize();
     }
     data[size++] = x;
@@ -84,7 +84,9 @@ void INT::operator+=(INT &x){
         }
     }
 }
+//remember to clear
 std::istream &operator>>(std::istream &is, INT &x){
+    x.data.clear();
     std::string str;
     is >> str;
     for(int i=str.length()-1;i>=0;i--){
@@ -94,7 +96,7 @@ std::istream &operator>>(std::istream &is, INT &x){
 }
 std::ostream &operator<<(std::ostream &os, INT &x){
     for(int i=x.data.length()-1;i>=0;i--){
-        os << x.data[i];
+        os << (char)(x.data[i]+'0');
     }
     return os;
 }
