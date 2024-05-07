@@ -31,7 +31,9 @@ int& Darray::operator[](int index){
     return data[index];
 }
 void Darray::pushback(int x){
-    if(size == capacity) resize();
+    if(size == capacity){
+        resize();
+    }
     data[size++] = x;
 }
 void Darray::popback(void){
@@ -63,13 +65,20 @@ class INT {
 void INT::operator+=(INT &x){
     int range = this->data.length()<x.data.length()?this->data.length():x.data.length();
     int carry = 0;
-    for(int i=1;i<=range;i++){
-        this->data[this->data.length()-i] += x.data[x.data.length()-i]+carry;
-        if(this->data[this->data.length()-i]>=10){
-            this->data[this->data.length()-i] -= 10;
+    for(int i=0;i<range;i++){
+        this->data[i] += x.data[i]+carry;
+        if(this->data[i]>=10){
+            this->data[i] -= 10;
             carry = 1;
         }else{
             carry = 0;
+        }
+    }
+    if(carry){
+        if(this->data.length()<x.data.length()){
+            this->data.pushback(x.data[range]+carry);
+        }else{
+            this->data[range] += carry;
         }
     }
 }
