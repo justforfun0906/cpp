@@ -2,6 +2,7 @@
 #define _FUNC_H
 #include <iostream>
 #include <string>
+#include <sstream>
 using namespace std;
 
 class Codec {
@@ -19,11 +20,25 @@ protected:
     string code_str;
 };
 class DummyCodec: public Codec {
-
+    DummyCodec(string is): Codec(is){ };
+    virtual ~DummyCodec() { }
+    virtual void encode() override{
+        encoded = true;
+    }
+    void decode() override{
+        encoded = false;
+    }
 };
 class RleCodec: public Codec {
-
+    RleCodec(string is): Codec(is){ };
 };
-Codec* getCodec(const string& type, const string& is);
+Codec* getCodec(const string& type, const string& is){//is = input string
+    if (type == "Dummy") {
+        return new DummyCodec(is);
+    } else if (type == "RLE") {
+        return new RleCodec(is);
+    }
+    return nullptr;
+}
 
 #endif
