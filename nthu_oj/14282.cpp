@@ -17,7 +17,7 @@ int main() {
     for (int round = 0; round < testcase; ++round) {
         getline(cin, line);
         stringstream ss(line);
-
+        cout<<"check"<<endl;  
         ss >> gameType;
         if (gameType == "TicTacToe") gameBoard = new TicTacToeBoard();
         else if (gameType == "ConnectFour") gameBoard = new ConnectFourBoard();
