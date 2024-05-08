@@ -2,8 +2,7 @@
 #define _FUNC_H
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <sstream>  
+#include <sstream>
 using namespace std;
 
 class Codec {
