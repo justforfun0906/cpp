@@ -24,6 +24,7 @@ class Move {
         Move() : player(""), move("") {}
         Move(string p, string m) : player(p), move(m) {}
         string getPlayer() { return player; }
+        //enabling functions in the game classes can access private members of the Move class
         friend class TicTacToeBoard;
         friend class ConnectFourBoard;
         friend istream& operator>>(istream& input, Move& m) {
@@ -134,7 +135,7 @@ class TicTacToeBoard : public Board {
             int col = m.move[2] - '0';
             //update the board
             //board[] operator gives the whole row
-            (*this)[row][col] = gameTurn == 0 ? 'X' : 'O';
+            (*this)[row][col] = gameTurn ? 'X' : 'O';
             //switch the player
             //nextPlayer is a function in the base class
             gameTurn = nextPlayer();
@@ -182,12 +183,71 @@ class ConnectFourBoard : public Board {
         /* === TODO:_10 === */
         // Applies a move to the board, 
         // alternating between players ( gameTurn = nextPlayer(); ).
-        ConnectFourBoard& operator+=(const Move& m) override;
+        ConnectFourBoard& operator+=(const Move& m) override{
+            //get the column from the move
+            //move:c1 or c2 or c3...
+            int col = m.move[1] - '0';
+            //update the board
+            //find the first empty row in the column
+            for(int i=5;i>=0;i--){//find the first empty row of the column
+                if((*this)[i][col] == '.'){
+                    //if gameTurn is 1, put 'B' in the cell, otherwise put 'W'
+                    (*this)[i][col] = gameTurn ? 'B' : 'W';
+                    break;
+                }
+            }
+            //switch the player
+            gameTurn = nextPlayer();
+            return *this;
+        
+        }
 
         /* === TODO:_11 === */
         // Checks for four consecutive pieces horizontally, vertically, and diagonally
         // to determine if the ConnectFour game is won.
         bool isGameWon() override;
 };
-
+bool ConnectFourBoard::isGameWon() {
+    for (int row = 0; row < 6; ++row) {
+        for (int col = 0; col < 4; ++col) {
+            if ((*this)[row][col] != '.' &&
+                (*this)[row][col] == (*this)[row][col+1] &&
+                (*this)[row][col+1] == (*this)[row][col+2] &&
+                (*this)[row][col+2] == (*this)[row][col+3]) {
+                return true;
+            }
+        }
+    }
+    for (int col = 0; col < 7; ++col) {
+        for (int row = 0; row < 3; ++row) {
+            if ((*this)[row][col] != '.' &&
+                (*this)[row][col] == (*this)[row+1][col] &&
+                (*this)[row+1][col] == (*this)[row+2][col] &&
+                (*this)[row+2][col] == (*this)[row+3][col]) {
+                return true;
+            }
+        }
+    }
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 4; ++col) {
+            if ((*this)[row][col] != '.' &&
+                (*this)[row][col] == (*this)[row+1][col+1] &&
+                (*this)[row+1][col+1] == (*this)[row+2][col+2] &&
+                (*this)[row+2][col+2] == (*this)[row+3][col+3]) {
+                return true;
+            }
+        }
+    }
+    for (int row = 3; row < 6; ++row) {
+        for (int col = 0; col < 4; ++col) {
+            if ((*this)[row][col] != '.' &&
+                (*this)[row][col] == (*this)[row-1][col+1] &&
+                (*this)[row-1][col+1] == (*this)[row-2][col+2] &&
+                (*this)[row-2][col+2] == (*this)[row-3][col+3]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 #endif
