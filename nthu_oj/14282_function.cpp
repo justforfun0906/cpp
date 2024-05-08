@@ -1,4 +1,4 @@
-#include "function.h"
+#include "14282.hpp"
 #include <iostream>
 Board::Board(int r,int c):rows(r),cols(c),gameTurn(0){
     board = new char*[rows];
