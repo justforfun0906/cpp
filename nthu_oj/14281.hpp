@@ -10,7 +10,7 @@ class Codec {
 public:
     Codec(string s): encoded(false), code_str(s) { }
     virtual ~Codec() { } // virtual destructor; do nothing
-    virtual void encode() = 0;
+    virtual void encode() = 0;// pure virtual function
     virtual void decode() = 0;
     void show(ostream& os) const {
         os << code_str;

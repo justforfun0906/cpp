@@ -26,7 +26,7 @@ public:
   virtual void throwBall() = 0;
   virtual void carton() = 0;
   void printSpecies() { cout << this->species << "\n"; }
-  virtual ~Animal() {
+  virtual ~Animal() {//virtual destructor called by derived class's destructor
     cout<<"deleting "<<species<<endl;
     if (this->belong != NULL)
       this->belong->dead(this->species);

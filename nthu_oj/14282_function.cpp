@@ -42,7 +42,7 @@ ConnectFourBoard::ConnectFourBoard(): Board(CONNECT_FOUR_ROWS, CONNECT_FOUR_COLS
 TicTacToeBoard& TicTacToeBoard::operator+=(const Move& m){
     int row = m.move[0]-'0';
     int col = m.move[2]-'0';
-    (*this)[row][col] = gameTurn?'X':'O';
+    (*this)[row][col] = gameTurn?'X':'O';//gameTurn=0, O; gameTurn=1, X
     gameTurn= nextPlayer();
     return *this;
 }

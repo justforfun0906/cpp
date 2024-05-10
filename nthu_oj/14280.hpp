@@ -101,7 +101,7 @@ class FractionList {
         // Constructor that initializes the list with a single fraction.
         FractionList(Fraction *f): fraction(f), nextFraction(nullptr) {}
 
-        /* ***** TODO ***** */
+        /* ***** TODO: ***** */
         // Copy constructor: performs a "deep copy" of the entire FractionList.
         // This is necessary to ensure that each FractionList instance
         // has its own separate copies of Fraction objects and linked FractionList nodes,
@@ -154,9 +154,11 @@ FractionList& FractionList::operator=(const FractionList& fraclist){
 }
 FractionList& FractionList::operator+=(const Fraction& frac){
     FractionList *list = this;
-    while(list->nextFraction)list = list->nextFraction;
+    while(list->nextFraction)list = list->nextFraction;//find the last element
     list->nextFraction = new FractionList(new Fraction(frac));
-    //fractionlist constructor -> fraction constructor -> fraction in parameter
+    //FIXME: important
+    //Making a new FractionList node with a new Fraction object
+    //fractionlist constructor -> expecting a fraction pointer -> fraction constructor -> fraction pointer in parameter
     return *this;
 }   
 FractionList::~FractionList(){
