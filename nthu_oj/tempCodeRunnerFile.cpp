@@ -1,2 +1,2 @@
-
-    int n;
+ut(ma,begin,end);
+				else
