@@ -4,7 +4,6 @@
 #include<ostream>
 #include<string>
 #include"11447.hpp"
-
 namespace oj
 {
 	String::String(const std::string &str_)
@@ -27,6 +26,9 @@ namespace oj
 
 int main()
 {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
 	using namespace std;
 	using namespace oj;
 	map<int,String> ma;

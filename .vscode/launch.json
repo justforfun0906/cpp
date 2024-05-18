@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "C/C++: C:\\MinGW\\bin\\g++.exe 建置及偵錯使用中的檔案",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: g++.exe 建置使用中檔案"
+        },
+        {
+            "name": "C/C++: g++-13 建置及偵錯使用中的檔案",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: g++-13 建置使用中檔案"
+        }
+    ],
+    "version": "2.0.0"
+}

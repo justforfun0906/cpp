@@ -19,7 +19,6 @@ void oj::output(const std::map<int,String> &ma,int begin,int end){
         if(it.first >=begin && it.first<=end){
             std::cout<<it.second.str<<' ';
         }
-        std::cout<<'\n';
     }
 }
 void oj::erase(std::map<int,String> &ma,int begin,int end){
