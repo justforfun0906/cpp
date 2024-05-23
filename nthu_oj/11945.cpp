@@ -17,11 +17,11 @@ int main(){
         dist[a] = 0;
         queue<int> Q;
         Q.push(a);
-        while(Q.empty()==false){
+        while(Q.empty()==false){//bfs from diamond
             int x = Q.front();
             Q.pop();
             for(auto it:G[x]){
-                if(dist[it]>dist[x]+1){
+                if(dist[it]>dist[x]+1){//if relaxable, mod the dis, push it into queue
                     dist[it] = dist[x]+1;
                     Q.push(it);
                 }

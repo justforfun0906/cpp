@@ -25,7 +25,7 @@ int main(){
                 continue;
             }
             int front_dis = abs(*prev-x);
-            int back_dis = abs(*it-x);
+            int back_dis = abs(*it-x);//it is the first element that is greater or equal to x
             if(front_dis<=back_dis){
                 cout<<*prev<<'\n';
             } else {

@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 std::ostream &oj::operator<<(std::ostream &os,const std::map<int,String> &ma){
     for(auto it:ma){
-        os<<it.second<<' ';
+        os<<it.second.str<<' ';
     }
     return os;
 }
