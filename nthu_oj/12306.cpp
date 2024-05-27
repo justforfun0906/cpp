@@ -7,6 +7,7 @@ typedef struct player_state{
     int step;
     player_state(int hp,int mhp,int lv,int step):hp(hp),mhp(mhp),lv(lv),step(step){}
 } state;
+bool checked[16][301][401];//level, hp, mhp
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -18,6 +19,7 @@ int main(){
         cin>>lv_table[i].first>>lv_table[i].second;
         //first = dmg, second = hl(amount of hp that can be healed)
     }
+    checked[0][HP][MHP] = true;
     queue<state> q;
     q.push(state(HP, MHP, 0, 0));
     int min_step = 1e9;
@@ -26,24 +28,26 @@ int main(){
         q.pop();
         //attack
         if(cur.mhp-lv_table[cur.lv].first<=0){
-            //cout<<"win step = "<<cur.step+1<<endl;
-            min_step = min(min_step, cur.step+1);
-        }else if(cur.hp-MDMG>0){
-            //cout<<"attack "<<cur.hp-MDMG<<" "<<cur.mhp-lv_table[cur.lv].first<<" "<<cur.lv<<" "<<cur.step+1<<endl;
-            if(cur.step+1<min_step)q.push(state(cur.hp-MDMG, cur.mhp-lv_table[cur.lv].first, cur.lv, cur.step+1));
+            cout<<cur.step+1<<endl; 
+            return 0;
+        }else if(cur.hp-MDMG>0 && !checked[cur.lv][cur.hp-MDMG][cur.mhp-lv_table[cur.lv].first]){
+            q.push(state(cur.hp-MDMG, cur.mhp-lv_table[cur.lv].first, cur.lv, cur.step+1));
+            checked[cur.lv][cur.hp-MDMG][cur.mhp-lv_table[cur.lv].first] = true;
         }
+
         //heal
         int temp_hp = min(cur.hp+lv_table[cur.lv].second, HP);
         temp_hp -= MDMG;
-        if(temp_hp>0){
-            //cout<<"heal "<<temp_hp<<" "<<cur.mhp<<" "<<cur.lv<<" "<<cur.step+1<<endl;
-            if(cur.step+1<min_step)q.push(state(temp_hp, cur.mhp, cur.lv, cur.step+1));
+        if(temp_hp>0 && !checked[cur.lv][temp_hp][cur.mhp]){
+            if(cur.step+1<min_step) q.push(state(temp_hp, cur.mhp, cur.lv, cur.step+1));
+            checked[cur.lv][temp_hp][cur.mhp] = true;
         }
+
         //level up
-        if(cur.lv+1<L&&cur.hp-MDMG>0){
-            //cout<<"level up "<<cur.hp-MDMG<<" "<<cur.mhp<<" "<<cur.lv+1<<" "<<cur.step+1<<endl;
-            if(cur.step+1<min_step)q.push(state(cur.hp-MDMG, cur.mhp, cur.lv+1, cur.step+1));
+        if(cur.lv+1<L&&cur.hp-MDMG>0&&!checked[cur.lv+1][cur.hp-MDMG][cur.mhp]){
+            if(cur.step+1<min_step) q.push(state(cur.hp-MDMG, cur.mhp, cur.lv+1, cur.step+1));
+            checked[cur.lv+1][cur.hp-MDMG][cur.mhp] = true;
         }
     }
-    cout<<min_step<<endl;
+    cout<<-1<<endl;
 }
