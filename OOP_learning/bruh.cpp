@@ -1,32 +1,20 @@
-#include <algorithm>
+#include <cmath>
 #include <iostream>
-using namespace std;
-template<typename Iter, typename Func>
-void Sort(Iter first, Iter last, Func Comp) {
-    while (first++ != last) {
-        Iter cur = first;
-        while (++cur != last) {
-            if (Comp(*first, *cur)) {
-                cout<<"swapping "<<*first<<" and "<<*cur<<'\n';
-                std::swap(*first, *cur);
-            }
-        }
-    }
-}
-
-bool CompFunc(int a, int b) {
-    return a < b;
-}
-struct Compobj{
-    bool operator()(int a, int b){
-        return a < b;
-    }
+template <typename T, class Func>
+void ForEach(T _begin, T _end, Func _func) {
+    for (; _begin != _end; _begin++) {
+        _func(*_begin);
+} }
+struct Power {
+    int exp;
+    void operator()(int &base) {
+        exp = 2;
+        base = std::pow(base, exp);
+} 
 };
 int main() {
-    int arr[]={2, 1, 2, 7, 3};
-    Sort(arr, arr + 4, CompFunc);
-    for(auto i:arr){
-        cout<<i<<' ';
-    }
+    int A[] = { 1, 2, 3, 4, 5 };
+    ForEach(A, A + 5, Power());
+    for(int i=0;i<5;i++) std::cout<<A[i]<<' ';
     return 0;
 }
