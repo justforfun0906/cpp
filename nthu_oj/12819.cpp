@@ -53,6 +53,7 @@ class state{
                                 //having another tile on this row which is not blank,
                                 //and it's also on its target row
                                 //and these two tiles are blocking each other's way
+                                //which means tile a's value is larger than tile b's but tile a is on tile b's right side
                                 h += 2;
                             }
                         }
