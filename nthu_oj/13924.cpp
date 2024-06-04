@@ -57,7 +57,7 @@ void assignTable(int time){//assign table at 'time'
         }else{
             //find other group
             int largest_avl_table_size = MaxTable->first;
-            auto it = waiting_groups_size.upper_bound(group_state(largest_avl_table_size,0,0,0));
+            auto it = waiting_groups_size.upper_bound(group_state(largest_avl_table_size,-1,0,0));
             if(it == waiting_groups_size.begin()){
                 break;
             }
