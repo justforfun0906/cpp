@@ -44,6 +44,7 @@ void assignTable(int time){//assign table at 'time'
         auto MaxTable = aval_table_cnt.rbegin();
         if(TargetTable!=aval_table_cnt.end()){//found smth
             //assgning to the first group
+            //cout<<"Assigning Group:"<<TargetGroup.id<<"to table with size of"<<TargetTable->first<<'\n';
             ans[TargetGroup.id] = time;
 
             waiting_groups_size.erase(TargetGroup);
@@ -61,6 +62,8 @@ void assignTable(int time){//assign table at 'time'
                 break;
             }
             TargetGroup = *(--it);
+            TargetTable = aval_table_cnt.lower_bound(TargetGroup.people);
+            //cout<<"Assigning Group:"<<TargetGroup.id<<"to table with size of"<<TargetTable->first<<'\n';
             ans[TargetGroup.id] = time;
 
             waiting_groups_size.erase(TargetGroup);
