@@ -78,10 +78,18 @@ void assignTable(int time){//assign table at 'time'
 }
 void releaseTable(int time){//release all table that end before 'time'
     while(!table_in_use.empty()&&table_in_use.begin()->first<=time){
-        aval_table_cnt[table_in_use.begin()->second]++;
-        int release_time = table_in_use.begin()->first;
-        table_in_use.erase(table_in_use.begin());
-        assignTable(release_time);
+        int sameTime = table_in_use.begin()->first;
+        while(table_in_use.begin()->first == sameTime){
+            //release multiple with same release time then assign table
+            if(aval_table_cnt.find(table_in_use.begin()->second)==aval_table_cnt.end()){
+            aval_table_cnt.insert({table_in_use.begin()->second, 1});
+            }else{
+                aval_table_cnt[table_in_use.begin()->second]++;
+            }
+            int release_time = table_in_use.begin()->first;
+            table_in_use.erase(table_in_use.begin());
+        }
+        assignTable(sameTime);
     }
 }
 int main(){
