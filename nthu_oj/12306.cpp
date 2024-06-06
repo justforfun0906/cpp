@@ -27,10 +27,10 @@ int main(){
         state cur = q.front();
         q.pop();
         //attack
-        if(cur.mhp-lv_table[cur.lv].first<=0){
+        if(cur.mhp-lv_table[cur.lv].first<=0){//win
             cout<<cur.step+1<<endl; 
             return 0;
-        }else if(cur.hp-MDMG>0 && !checked[cur.lv][cur.hp-MDMG][cur.mhp-lv_table[cur.lv].first]){
+        }else if(cur.hp-MDMG>0 && !checked[cur.lv][cur.hp-MDMG][cur.mhp-lv_table[cur.lv].first]){//if doesn't die && not checked
             q.push(state(cur.hp-MDMG, cur.mhp-lv_table[cur.lv].first, cur.lv, cur.step+1));
             checked[cur.lv][cur.hp-MDMG][cur.mhp-lv_table[cur.lv].first] = true;
         }
@@ -38,13 +38,13 @@ int main(){
         //heal
         int temp_hp = min(cur.hp+lv_table[cur.lv].second, HP);
         temp_hp -= MDMG;
-        if(temp_hp>0 && !checked[cur.lv][temp_hp][cur.mhp]){
+        if(temp_hp>0 && !checked[cur.lv][temp_hp][cur.mhp]){// still alive && not checked
             if(cur.step+1<min_step) q.push(state(temp_hp, cur.mhp, cur.lv, cur.step+1));
             checked[cur.lv][temp_hp][cur.mhp] = true;
         }
 
         //level up
-        if(cur.lv+1<L&&cur.hp-MDMG>0&&!checked[cur.lv+1][cur.hp-MDMG][cur.mhp]){
+        if(cur.lv+1<L&&cur.hp-MDMG>0&&!checked[cur.lv+1][cur.hp-MDMG][cur.mhp]){//doens't exceed level limit && still alive && not checked
             if(cur.step+1<min_step) q.push(state(cur.hp-MDMG, cur.mhp, cur.lv+1, cur.step+1));
             checked[cur.lv+1][cur.hp-MDMG][cur.mhp] = true;
         }

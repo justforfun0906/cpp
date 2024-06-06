@@ -20,18 +20,18 @@ int main(){
             i++;
             while(!s.empty()){
                 s.pop();
-            }
+            }//reset the stack
             continue;
         }
         if(par.find(c)%2==0){
-            s.push(c);
-        } else {
-            if(s.empty()){
+            s.push(c);//push the left part of the pair
+        } else {//right parenthesis
+            if(s.empty()){//no corresponding left parenthesis
                 ans = 0;
             } else {
-                if(par.find(s.top())+1==par.find(c)){
+                if(par.find(s.top())+1==par.find(c)){//has corresponding left parenthesis
                     s.pop();
-                } else {
+                } else {//no corresponding left parenthesis
                     ans = 0;
                 }
             }

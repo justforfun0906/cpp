@@ -17,14 +17,19 @@ class state{
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
                 this->puzzle[i][j] = arr[i][j];
+                if(arr[i][j]==0){
+                    this->ex = i;
+                    this->ey = j;
+                }
             }
         }
-        this->ex = this->ey = -1;
+
+        //this->ex = this->ey = -1;//empty block's position not set
         this->steps = 0;
         this-> prevMove = -1;//initially no prevMove
         setHeuristic();
     }
-    state(const state &target){
+    state(const state &target){//copy constructor
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
                 puzzle[i][j] = target.puzzle[i][j];
@@ -60,6 +65,8 @@ class state{
                         if (j == goalY) {
                             for (int k = i; k < 4; k++) {
                                 if (puzzle[k][j] > 0 && goalCol[puzzle[k][j]] == j && puzzle[i][j] > puzzle[k][j])
+                                //value at puzzle[i][j] is larger than value at puzzle[k][j]
+                                //but puzzle[k][j] is below puzzle[i][j]
                                 //linear conflict on column
                                 h += 2;
                             }
@@ -90,7 +97,7 @@ int main(){
     }
     priority_queue<state> pq;
     state s(puzzle);
-    for(int i=0;i<4;i++){
+    /*for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             if(!puzzle[i][j]){
                 s.ex = i;
@@ -98,7 +105,7 @@ int main(){
                 break;
             }
         }
-    }
+    }*/
     pq.push(s);
     while(!pq.empty()){
         state curState = pq.top();
@@ -124,7 +131,7 @@ int main(){
                 continue;
             }
             state nextState = curState;
-            nextState.update(i, newx, newy);
+            nextState.update(i, newx, newy);//move the blank tile to new position
             pq.push(nextState);
         }
     }

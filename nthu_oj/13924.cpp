@@ -11,7 +11,7 @@ typedef struct group_state{
 } group_state;
 struct cmp{
     auto operator()(const group_state &a, const group_state &b) const{
-        return a.arrive_time < b.arrive_time;
+        return a.arrive_time < b.arrive_time;//
     }
 };
 auto cmp2 = [](const group_state &a, const group_state &b){
@@ -27,7 +27,7 @@ auto cmp2 = [](const group_state &a, const group_state &b){
     if(a.people!=b.people){
         return a.people < b.people;//large to small
     }else{
-        return a.arrive_time > b.arrive_time;//early to late
+        return a.arrive_time > b.arrive_time;//late to early
     }
 };
 set<group_state, cmp> waiting_groups_time;// sort by arrival time
