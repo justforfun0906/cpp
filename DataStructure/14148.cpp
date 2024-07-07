@@ -17,6 +17,7 @@ int Partition(vector<int> &v, int l, int r){
     //return the correct position of pivot
     return i-1;
 }
+//remember to use call by reference
 int QuickSelect(vector<int> &v,int l, int r, int target){
     int pos = Partition(v,l,r);
     //if l == r, pos will = l
