@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#define int long long
 using namespace std;
 int n,ans;
 void merge(vector<int> &v, int l, int r){
@@ -10,7 +11,7 @@ void merge(vector<int> &v, int l, int r){
             tmp[k++] = v[i++];
         }else{
             tmp[k++] = v[j++];
-            ans += 1;
+            ans += mid-i+1;
         }
     }
     while(i<=mid){
@@ -30,7 +31,7 @@ void mergeSort(vector<int> &v, int l, int r){
     mergeSort(v,mid+1,r);
     merge(v,l,r);
 }
-int main(){
+signed main(){
     cin>>n;
     ans = 0;
     vector<int> v(n);
