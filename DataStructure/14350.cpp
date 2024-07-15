@@ -6,11 +6,11 @@ void merge(vector<pair<int, int>> &v, int l, int r){
     vector<pair<int, int> > tmp(r-l+1);
     int i=l,j=mid+1,k=0;
     while(i<=mid && j<=r){
-        if(v[i].first<=v[j].first){
+        if(v[i].second<=v[j].second){
+            cnt +=r-j+1;
             tmp[k++] = v[i++];
         }else{
             tmp[k++] = v[j++];
-            cnt += mid-i+1;
         }
     }
     while(i<=mid){
@@ -39,5 +39,7 @@ int main(){
         if(v[i].first>v[i].second) swap(v[i].first,v[i].second);
         //make sure that v[i].first<=v[i].second
     }
+    sort(v.begin(),v.end());
     merge_sort(v,0,n-1);
+    cout<<cnt<<'\n';
 }
