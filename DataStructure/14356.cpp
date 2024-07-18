@@ -1,64 +1,199 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef pair<int, int> pii;
-class TwoD_DSU{
-    public:
-        vector<vector<pii> > parent;
-        vector<vector<pii> > size;
-        vector<vector<int> > map;
-        int n,m;
-        int max_size = 0;
-        int cnt = 0;
-        TwoD_DSU(int n, int m){
-            this->n = n;
-            this->m = m;
-            parent.resize(n, vector<pii>(m));
-            size.resize(n, vector<pii>(m));
-            map.resize(n, vector<int>(m));
-        }
-        void union(int x1, int y1, int x2, int y2){
-            pii p1 = find(x1,y1);
-            pii p2 = find(x2,y2);
-            if(p1==p2) return;
-            if(size[p1.first][p1.second]>size[p2.first][p2.second]){
-                parent[p2.first][p2.second] = p1;
-                size[p1.first][p1.second] += size[p2.first][p2.second];
-                max_size = max(max_size, size[p1.first][p1.second]);
-            } else{
-                parent[p1.first][p1.second] = p2;
-                size[p2.first][p2.second] += size[p1.first][p1.second];
-                max_size = max(max_size, size[p2.first][p2.second]);
-            }
-            cnt--;
-        }
-        void insert(int x, int y){
-            map[x][y] = 1;
-            parent[x][y] = {x,y};
-            //try union
-
-        };
-        pii find(int x, int y){
-            if(parent[x][y]==make_pair(x,y)) return {x,y};
-            return parent[x][y] = find(parent[x][y].first, parent[x][y].second);
-        }
-};
 int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     int n,m,k;
     cin>>n>>m>>k;
     int map[n][m];
+    bool visited[n][m]={0};
     for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
             cin>>map[i][j];
+            visited[i][j] = 0;
         }
     }
-    pair<int, int> dsu[n][m];
+    int max_size = 0;
+    int cnt = 0;
     for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            if(map[i][j]==0){
-                dsu[i][j] = {-1,-1};
-            } else{
-                dsu[i][j] = {i,j};
+        for(int j=0;j<m;j++){
+            if(map[i][j] && !visited[i][j]){
+                cnt++;
+                queue<pair<int,int>> q;
+                q.push({i,j});
+                visited[i][j] = 1;
+                int size = 0;
+                while(!q.empty()){
+                    size++;
+                    auto [x,y] = q.front();
+                    q.pop();
+                    if(x>0 && map[x-1][y] && !visited[x-1][y]){
+                        q.push({x-1,y});
+                        visited[x-1][y] = 1;
+                    }
+                    if(x<n-1 && map[x+1][y] && !visited[x+1][y]){
+                        q.push({x+1,y});
+                        visited[x+1][y] = 1;
+                    }
+                    if(y>0 && map[x][y-1] && !visited[x][y-1]){
+                        q.push({x,y-1});
+                        visited[x][y-1] = 1;
+                    }
+                    if(y<m-1 && map[x][y+1] && !visited[x][y+1]){
+                        q.push({x,y+1});
+                        visited[x][y+1] = 1;
+                    }
+                }
+                max_size = max(max_size,size);
             }
         }
+    }
+    cout<<max_size<<' '<<cnt<<'\n';
+    while(k--){
+        max_size = 0;
+        cnt = 0;
+        int tx,ty;
+        cin>>tx>>ty;
+        tx--; ty--;
+        map[tx][ty] = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                visited[i][j] = 0;
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(map[i][j] && !visited[i][j]){
+                    cnt++;
+                    queue<pair<int,int>> q;
+                    q.push({i,j});
+                    visited[i][j] = 1;
+                    int size = 0;
+                    while(!q.empty()){
+                        size++;
+                        auto [x,y] = q.front();
+                        q.pop();
+                        if(x>0 && map[x-1][y] && !visited[x-1][y]){
+                            q.push({x-1,y});
+                            visited[x-1][y] = 1;
+                        }
+                        if(x<n-1 && map[x+1][y] && !visited[x+1][y]){
+                            q.push({x+1,y});
+                            visited[x+1][y] = 1;
+                        }
+                        if(y>0 && map[x][y-1] && !visited[x][y-1]){
+                            q.push({x,y-1});
+                            visited[x][y-1] = 1;
+                        }
+                        if(y<m-1 && map[x][y+1] && !visited[x][y+1]){
+                            q.push({x,y+1});
+                            visited[x][y+1] = 1;
+                        }
+                    }
+                    max_size = max(max_size,size);
+                }
+            }
+        }
+        cout<<max_size<<' '<<cnt<<'\n';
+    }
+}#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int n,m,k;
+    cin>>n>>m>>k;
+    int map[n][m];
+    bool visited[n][m]={0};
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>map[i][j];
+            visited[i][j] = 0;
+        }
+    }
+    int max_size = 0;
+    int cnt = 0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(map[i][j] && !visited[i][j]){
+                cnt++;
+                queue<pair<int,int>> q;
+                q.push({i,j});
+                visited[i][j] = 1;
+                int size = 0;
+                while(!q.empty()){
+                    size++;
+                    auto [x,y] = q.front();
+                    q.pop();
+                    if(x>0 && map[x-1][y] && !visited[x-1][y]){
+                        q.push({x-1,y});
+                        visited[x-1][y] = 1;
+                    }
+                    if(x<n-1 && map[x+1][y] && !visited[x+1][y]){
+                        q.push({x+1,y});
+                        visited[x+1][y] = 1;
+                    }
+                    if(y>0 && map[x][y-1] && !visited[x][y-1]){
+                        q.push({x,y-1});
+                        visited[x][y-1] = 1;
+                    }
+                    if(y<m-1 && map[x][y+1] && !visited[x][y+1]){
+                        q.push({x,y+1});
+                        visited[x][y+1] = 1;
+                    }
+                }
+                max_size = max(max_size,size);
+            }
+        }
+    }
+    cout<<max_size<<' '<<cnt<<'\n';
+    while(k--){
+        max_size = 0;
+        cnt = 0;
+        int tx,ty;
+        cin>>tx>>ty;
+        tx--; ty--;
+        map[tx][ty] = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                visited[i][j] = 0;
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(map[i][j] && !visited[i][j]){
+                    cnt++;
+                    queue<pair<int,int>> q;
+                    q.push({i,j});
+                    visited[i][j] = 1;
+                    int size = 0;
+                    while(!q.empty()){
+                        size++;
+                        auto [x,y] = q.front();
+                        q.pop();
+                        if(x>0 && map[x-1][y] && !visited[x-1][y]){
+                            q.push({x-1,y});
+                            visited[x-1][y] = 1;
+                        }
+                        if(x<n-1 && map[x+1][y] && !visited[x+1][y]){
+                            q.push({x+1,y});
+                            visited[x+1][y] = 1;
+                        }
+                        if(y>0 && map[x][y-1] && !visited[x][y-1]){
+                            q.push({x,y-1});
+                            visited[x][y-1] = 1;
+                        }
+                        if(y<m-1 && map[x][y+1] && !visited[x][y+1]){
+                            q.push({x,y+1});
+                            visited[x][y+1] = 1;
+                        }
+                    }
+                    max_size = max(max_size,size);
+                }
+            }
+        }
+        cout<<max_size<<' '<<cnt<<'\n';
     }
 }
