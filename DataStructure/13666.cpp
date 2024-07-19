@@ -1,17 +1,20 @@
 #include <iostream>
-#include <string>
+#include <sstream>
 using namespace std;
 
 int main() {
     string S;
     cin >> S;
 
-    size_t pos;
-    // Repeat until "ABC" is not found
-    while ((pos = S.find("ABC")) != string::npos) {
-        S.erase(pos, 3); // Remove "ABC" from the string
+    stringstream ss;
+    size_t pos = 0, prev = 0;
+    // Find each occurrence of "ABC" and append the parts of S without "ABC" to ss
+    while ((pos = S.find("ABC", prev)) != string::npos) {
+        ss << S.substr(prev, pos - prev); // Append part of S before "ABC"
+        prev = pos + 3; // Move past the "ABC"
     }
+    ss << S.substr(prev); // Append the remainder of S
 
-    cout << S << endl; // Print the final result
+    cout << ss.str() << endl; // Print the final result
     return 0;
 }
