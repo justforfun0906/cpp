@@ -88,6 +88,7 @@ int main(){
         dsu.MAP[x][y] = 1;
         dsu.parent[x][y] = {x,y};
         dsu.size[x][y] = 1;
+        dsu.max_size = max(dsu.max_size,dsu.size[x][y]);
         dsu.cnt++;
         for(int i=0;i<4;i++){
             int nx = x+dx[i];

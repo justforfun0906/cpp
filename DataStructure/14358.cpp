@@ -1,43 +1,42 @@
 #include<bits/stdc++.h>
 using namespace std;
- 
-const int N = 110;
-const int MxLen = 5010;
-const long long mod = 1000000007, M = 37;
- 
-int n, q;
-long long pw[5010];
-long long hash_table[N], len[N];
- 
+const int MaxLen = 5050;
+const int MOD = 1000000007;
+const int M = 37;
+long long pw[MaxLen];
+long long len[MaxLen];
+long long HashMap[MaxLen];
 void solve(){
-    pw[0] = 1;
-    for(int i = 1; i < MxLen; i++)
-        pw[i] = pw[i - 1] * M % mod;
-    cin >> n >> q;
-    for(int i = 0; i < n; i++){
+    int n,q;
+    cin>>n>>q;
+    for(int i=0;i<n;i++){
         string s;
-        cin >> s;
+        cin>>s;
+        HashMap[i] = 0;
+        for(int j=0;j<s.size();j++){
+            HashMap[i] = (HashMap[i] + s[j] * pw[j] % MOD) % MOD;
+        }
         len[i] = s.size();
-        for(int j = 0; j < len[i]; j++)
-            hash_table[i] = (hash_table[i] + s[j] * pw[j] % mod) % mod; 
     }
     while(q--){
-        char c;
-        int x, y;
-        cin >> c >> x >> y;
-        x--, y--;
-        if(c == 'E')
-            cout << (hash_table[x] == hash_table[y] ? "Y" : "N") << '\n';
-        else{
-            hash_table[x] = (hash_table[x] + hash_table[y] * pw[len[x]] % mod) % mod;
-            len[x] += len[y];
+        char instruct;
+        int x,y;
+        cin>>instruct>>x>>y;
+        x--; y--;
+        if(instruct == 'E'){
+            cout<< (HashMap[x]==HashMap[y]?'Y':'N')<<'\n';
+        }else{
+            HashMap[x] = (HashMap[x]+HashMap[y]*pw[len[x]]%MOD)%MOD;
+            len[x]+=len[y];
         }
     }
 }
- 
 int main(){
-    ios::sync_with_stdio(0);
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
+    pw[0] = 1;
+    for(int i=1;i<MaxLen;i++){
+        pw[i] = (pw[i-1]*M)%MOD;
+    }
     solve();
 }
- 
