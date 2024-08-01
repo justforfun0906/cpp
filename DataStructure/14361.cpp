@@ -1,16 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
 struct node{
-    node *l = nullptr, *r = nullptr;
+    int l = -1, r = -1;
     int val;
     node(int x):val(x){};
 };
-void dfs(node* now_node, int k, vector<int> &inorder){
-    if(now_node==nullptr) return;
+void dfs(int now_node, vector<int> &preorder, vector<node> &tree){
+    if(now_node == -1) return;
     else{
-        inorder[k] = now_node->val;
-        dfs(now_node->l, k+1, inorder);
-        dfs(now_node->r, k+1, inorder);
+        preorder.push_back(now_node);
+        dfs(tree[now_node].l, preorder, tree);
+        dfs(tree[now_node].r, preorder, tree);
     }
 }
 int main(){
@@ -25,8 +25,8 @@ int main(){
         cin>>l>>r;
         if(l != -1) parent[l] = i;
         if(r != -1) parent[r] = i;
-        tree[i].l = l == -1 ? nullptr : &tree[l];
-        tree[i].r = r == -1 ? nullptr : &tree[r];
+        tree[i].l = l == -1 ? -1 : l;
+        tree[i].r = r == -1 ? -1 : r;
     }
     int root_node = 0;
     for(int i=1;i<=n;i++){
@@ -35,7 +35,8 @@ int main(){
             break;
         }
     }
-    vector<int> inorder(n+1);
-    dfs(&tree[root_node], 1, inorder);
-    for(int i=1;i<=n;i++) cout<<inorder[i]<<" ";
+    //cout<<"root node ="<<root_node<<'\n';
+    vector<int> preorder;
+    dfs(root_node, preorder, tree);
+    cout<<preorder[n-1]<<'\n';
 }
