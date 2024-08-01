@@ -5,7 +5,11 @@ struct node{
     int val;
     node(int x):val(x){};
 };
-vector< pair<int, int> > build(int l, int r, vector<pair<int, int>> tree, vector<int> preorder, vector<int> inorder_pos){
+node* build(int l, int r, int root, vector<int> preorder, vector<int> inorder_pos){
+    node* root_node = new node(preorder[root]);
+    if(l == r){
+        return root_node;
+    }
 
 }
 int main(){
@@ -20,6 +24,6 @@ int main(){
         inorder_pos[inorder[i]] = i;
     }
     //calculate postorder
-    vector<pair<int, int>> tree(n, {-1,-1});//left, right, if -1, then it is leaf node
+    node *root = build(0,n-1,0,preorder,inorder_pos);
     for(int i=0;i<n;i++) cout<<postorder[i]<<" ";
 }
