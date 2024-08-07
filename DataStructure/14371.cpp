@@ -174,15 +174,20 @@ void delete_node(Node* x, int key){
         }
     }
 }
-int order(Node* x, int key){
-    if(x == nullptr){
-        return 0;
+int order(Node* x, int k) {
+    if (x == nullptr) {
+        return -1; // Error value, k is out of bounds
     }
-    //FIXME: 
-    if(x->data <= key){
-        return 1 + ((x->left == nullptr) ? 0 : x->left->size) + order(x->right, key);
+
+    int left_size = (x->left != nullptr) ? x->left->size : 0;
+
+    if (k == left_size + 1) {
+        return x->data;
+    } else if (k <= left_size) {
+        return order(x->left, k);
+    } else {
+        return order(x->right, k - (left_size + 1));
     }
-    return order(x->left, key);
 }
 void output(Node* x){
     if(x == nullptr){
@@ -206,7 +211,12 @@ int main(){
         }else if(ins == "DEL"){
             delete_node(root, x);
         }else{
-            cout<<order(root, x)<<'\n';
+            if(root==nullptr||root->size < x){
+                cout<<-1<<'\n';
+            }else{
+                // print k-th smallest element
+                cout<<order(root, x)<<'\n';
+            }
         }
     }
     return 0;
