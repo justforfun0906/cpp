@@ -1,18 +1,12 @@
-x->update();
-    if(x->bf == 2){//left is heavy
-        Node* left_child = x->left;
-        if(left_child->bf == 1){//LL
-            right_rotate(x);
-        }else{
-            left_rotate(left_child);
-            right_rotate(x);
+if(flag){
+        for(int i=0;i<n;i++){
+            if(ans[i] == post[i]) continue;
+            else{
+                cout<<"no\n";
+                return;
+            }
         }
-    }else if(x->bf == -2){//right is heavy
-        Node* right_child = x->right;
-        if(right_child->bf == -1){//RR
-            left_rotate(x);
-        }else{
-            right_rotate(right_child);
-            left_rotate(x);
-        }
+    }else{
+        cout<<"no\n";
+        return;
     }
