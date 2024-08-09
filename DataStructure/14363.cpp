@@ -5,7 +5,7 @@ vector<int> merge(vector<int> &a, vector<int> &b){
     //max size = 20
     vector<int> ans;
     int i=0, j=0;
-    while(i<a.size() && j<b.size()&& ans.size()<40){
+    while(i<a.size() && j<b.size()&& ans.size()<20){
         if(a[i]>b[j]){
             ans.push_back(a[i]);
             i++;
@@ -14,11 +14,11 @@ vector<int> merge(vector<int> &a, vector<int> &b){
             j++;
         }
     }
-    while(i<a.size()&&ans.size()<40){
+    while(i<a.size()&&ans.size()<20){
         ans.push_back(a[i]);
         i++;
     }
-    while(j<b.size()&&ans.size()<40){
+    while(j<b.size()&&ans.size()<20){
         ans.push_back(b[j]);
         j++;
     }
