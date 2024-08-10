@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<int> merge(vector<int> &a, vector<int> &b){
+void merge(vector<int> &a, vector<int> &b){
     //max size = 20
     vector<int> ans;
     int i=0, j=0;
@@ -22,20 +22,20 @@ vector<int> merge(vector<int> &a, vector<int> &b){
         ans.push_back(b[j]);
         j++;
     }
-    return ans;
+    a.resize(ans.size());
+    a.assign(ans.begin(), ans.end());
 }
 
 void dfs(vector<bool> &visited, vector<vector<int>> &mp, vector< vector<int> > &adj, int x, vector<int> &weight){
     visited[x] = 1;
-    vector<int> ans = {weight[x]};
+    mp[x].push_back(weight[x]);
     for(auto i:adj[x]){
         if(!visited[i]){
             visited[i] = 1;
             dfs(visited, mp, adj, i, weight);
-            ans = merge(ans, mp[i]);
+            merge(mp[x], mp[i]);
         }
     }
-    mp[x] = ans;
 }
 
 int main(){
