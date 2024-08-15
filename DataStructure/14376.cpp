@@ -7,6 +7,10 @@ int main(){
     for(int i=1;i<=n;i++){
         for(int j=1;j<=n;j++){
             G[i][j] = 1e18;
+            //initialize the diagonal to 0
+            if(i == j){
+                G[i][j] = 0;
+            }
         }
     }
     for(int i=0;i<m;i++){
@@ -16,27 +20,21 @@ int main(){
         G[b][a] = min(G[b][a], c);
     }
     // Floyd-Warshall algorithm
-    long long A[n+1][n+1];
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            A[i][j] = G[i][j];
-        }
-    }
 
     for (int k = 1; k <= n; ++k) {
         for (int i = 1; i <= n; ++i) {
             for (int j = 1; j <= n; ++j) {
-                A[i][j] = min(A[i][j], A[i][k] + A[k][j]);
+                G[i][j] = min(G[i][j], G[i][k] + G[k][j]);
             }
         }
     }
     for(int i=0;i<q;i++){
         int a,b;
         cin>>a>>b;
-        if(A[a][b] >= 1e18){
+        if(G[a][b] >= 1e18){
             cout<<-1<<'\n';
         }else{
-            cout<<A[a][b]<<'\n';
+            cout<<G[a][b]<<'\n';
         }
     }
 }
