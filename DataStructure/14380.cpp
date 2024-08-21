@@ -3,32 +3,37 @@ using namespace std;
 
 const int INF = 1e9;
 
-int dfs(int start, int cur, vector<vector<int>> &adj, int len_cnt, vector<bool> &visited) {
+int dfs(bool &found, int start, int cur, vector<vector<int>> &adj, int len_cnt, vector<bool> &visited) {
     visited[cur] = true;
     int min_cycle = INF;
-    
+    //if(start == cur)cout<<"start= "<<start<<"\n";
+    //cout<<"cur= "<<cur<<" ";
     for (auto& next : adj[cur]) {
         if (next == start) {
+            //cout<<"found cycle";
+            found = true;
             min_cycle = min(min_cycle, len_cnt);  // Found a cycle
         } else if (!visited[next]) {
-            int result = dfs(start, next, adj, len_cnt + 1, visited);
+            int result = dfs(found, start, next, adj, len_cnt + 1, visited);
             if (result != INF) {
                 min_cycle = min(min_cycle, result);
             }
         }
     }
-    
-    visited[cur] = false;  // Unmark the node for other paths
+    //cout<<'\n';
+    //visited[cur] = false;  // Unmark the node for other paths
     return min_cycle;
 }
 
 int findShortestCycle(int n, vector<vector<int>>& adj) {
     int result = INF;
+    bool flag = false;
     for (int i = 1; i <= n; ++i) {
         vector<bool> visited(n + 1, false);
-        result = min(result, dfs(i, i, adj, 1, visited));
+        result = min(result, dfs(flag, i, i, adj, 1, visited));
     }
-    return result == INF ? -1 : result;
+    if(flag == false) return -1;
+    else return result;
 }
 
 void solve() {
