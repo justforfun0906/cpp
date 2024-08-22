@@ -3,40 +3,37 @@ using namespace std;
 
 const int INF = 1e9;
 
-int bfs_min_cycle(int start, vector<vector<int>>& adj, int n) {
-    vector<int> dist(n + 1, -1);
-    queue<pair<int, int>> q;
-    q.push({start, 0});
-    dist[start] = 0;
-    
+int dfs(bool &found, int start, int cur, vector<vector<int>> &adj, int len_cnt, vector<bool> &visited) {
+    visited[cur] = true;
     int min_cycle = INF;
-    
-    while (!q.empty()) {
-        int node = q.front().first;
-        int depth = q.front().second;
-        q.pop();
-        
-        for (int neighbor : adj[node]) {
-            if (dist[neighbor] == -1) {  // Not visited
-                dist[neighbor] = depth + 1;
-                q.push({neighbor, depth + 1});
-            } else if (dist[neighbor] >= dist[node]) {  // Cycle detected
-                min_cycle = min(min_cycle, dist[node] - dist[neighbor] + 1);
+    //if(start == cur)cout<<"start= "<<start<<"\n";
+    //cout<<"cur= "<<cur<<" ";
+    for (auto& next : adj[cur]) {
+        if (next == start) {
+            //cout<<"found cycle";
+            found = true;
+            min_cycle = min(min_cycle, len_cnt);  // Found a cycle
+        } else if (!visited[next]) {
+            int result = dfs(found, start, next, adj, len_cnt + 1, visited);
+            if (result != INF) {
+                min_cycle = min(min_cycle, result);
             }
         }
     }
-    
-    return min_cycle == INF ? -1 : min_cycle;
+    //cout<<'\n';
+    //visited[cur] = false;  // Unmark the node for other paths
+    return min_cycle;
 }
 
-int find_smallest_cycle(int n, vector<vector<int>>& adj) {
-    int min_cycle = INF;
-    
+int findShortestCycle(int n, vector<vector<int>>& adj) {
+    int result = INF;
+    bool flag = false;
     for (int i = 1; i <= n; ++i) {
-        min_cycle = min(min_cycle, bfs_min_cycle(i, adj, n));
+        vector<bool> visited(n + 1, false);
+        result = min(result, dfs(flag, i, i, adj, 1, visited));
     }
-    
-    return min_cycle == INF ? -1 : min_cycle;
+    if(flag == false) return -1;
+    else return result;
 }
 
 void solve() {
@@ -55,7 +52,7 @@ void solve() {
             adj[u].push_back(v);
         }
         
-        int result = find_smallest_cycle(n, adj);
+        int result = findShortestCycle(n, adj);
         cout << result << '\n';
     }
 }

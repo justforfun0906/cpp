@@ -12,7 +12,7 @@ signed main(){
     cin>>n;
     vector<int> x(n), y(n);
     vector<bool> visited(n, false);
-    vector<int> dis(n, 1e18);
+    vector<int> dis(n, 1e18);//dis from mst to the node
     for(int i=0;i<n;i++){
         cin>>x[i]>>y[i];
     }
