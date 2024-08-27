@@ -14,7 +14,8 @@ signed main(){
     vector<int> dis(n, 1e18);
     vector<bool> visited(n, false);
     int mn, sum = 0, now = 0, next = 0;
-    visited[now] = 1;
+    visited[now] = 1;//put an arbitrary point as the starting point
+    //Prim's algorithm
     for(int round = 0;round<n-1;round++){
         for(int i=0;i<n;i++){
             if(visited[i]) continue;

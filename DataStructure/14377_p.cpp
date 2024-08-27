@@ -11,7 +11,7 @@ int f(int x){
         return -1;// cycle
     }
     if(state[x]== 0){
-        state[x] = 1;
+        state[x] = 1;//in stack
         dp[x] = a[x];
         for(auto u:G[x]){
             int res = f(u);
