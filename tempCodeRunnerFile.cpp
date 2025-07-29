@@ -1,1 +1,1 @@
-"Hello world
+cout<<"inside g, x = "<<x;
