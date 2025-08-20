@@ -1,30 +1,20 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using namespace std;
-void print_permutation(vector<int> &used_nums, vector<int> &temp_ans, int remained_length){
-    if(remained_length ==0){
-        print temp_ans;
-    }
-    for(int i=0;i<used_nums.size();i++){
-        if(used_nums[i]==0){
-            //push i into temp ans
-            //update used nums
-            //recursion
-            //pop i
-            //update used nums
-        }
-    }
+bool compare(pair<int, int> a, pair<int, int> b){//a是左邊的數字 b是右邊的
+    if(a>b) return true;//不交換位置
+    else return false;//交換位置
 }
 int main(){
-    vector<int> arr;//empty vector
-    vector<int> a(10);//size = 0
-    vector<int> b(10, 0);//10 elements are initially 0
-    arr.push_back(10);//add a new element to back
-    arr.pop_back();//remove the last element
-    int ab = arr.size();//get the current size of the vector 
-    cout<<arr[0];
-    cout<<arr.size();
-    int k = 0;
-    pass_by_value(k);
-    cout<<"in main, k="<<k;
+    int n;
+    cin>>n;
+    vector<pair<int,int>> v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i].first>>v[i].second;
+    }
+    sort(v.begin(), v.end(), compare);
+    for(int i = 0;i<n;i++){
+        cout<<v[i].second<<' ';
+    }
 }
